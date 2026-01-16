@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kendaks R&D guide — Screenshots</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body{background:var(--bg)}
+    .gallery{padding:14px; max-width:1200px; margin:0 auto}
+    .proj{border:1px solid var(--line); background:var(--panel); border-radius:18px; padding:14px; margin:14px 0}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px}
+    .tile{border:1px solid var(--line); border-radius:16px; background:rgba(17,28,51,.75); padding:10px}
+    .tile img{width:100%; height:auto; border-radius:12px; border:1px solid var(--line); background:#0b1220; display:block}
+    .cap{margin-top:8px; color:var(--muted); font-size:12px; line-height:1.35}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Kendaks R&D guide — Screenshots</h1>
+      <p>One screenshot per step, grouped by project</p>
+    </div>
+    <div class="searchbox">
+      <a href="index.html" style="color:var(--accent);text-decoration:none">Back to main guide</a>
+    </div>
+  </header>
+
+  <main class="gallery" id="root"></main>
+
+  <script src="js/projects.js"></script>
+  <script>
+    const root = document.getElementById('root');
+    const projects = window.KENDAKS_PROJECTS ?? [];
+
+    const pad2 = (n) => String(n).padStart(2,'0');
+
+    root.innerHTML = projects.map(p => {
+      const tiles = p.steps.map((s, idx) => {
+        const shot = `assets/screens/${p.id}/step-${pad2(idx+1)}.png`;
+        return `
+          <div class="tile">
+            <img src="${shot}" alt="${p.title} step ${idx+1}">
+            <div class="cap"><b>Step ${idx+1}.</b> ${s.title}</div>
+          </div>`;
+      }).join('');
+
+      return `
+        <section class="proj" id="${p.id}">
+          <h2 style="margin:0 0 10px">${p.title}</h2>
+          <div class="grid">${tiles}</div>
+        </section>`;
+    }).join('');
+  </script>
+</body>
+</html>
