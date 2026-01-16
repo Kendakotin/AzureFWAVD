@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kendaks R&D guide</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Kendaks R&amp;D guide</h1>
+      <p>Azure project blueprints • Step-by-step • Image per step</p>
+    </div>
+
+    <div class="searchbox">
+      <input id="search" type="search" placeholder="Search projects (e.g., Databricks, Sentinel, PCI DSS)..." />
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <nav>
+        <a href="screenshots.html">Screenshots Gallery</a>
+      </nav>
+
+      <nav id="nav"></nav>
+
+      <section class="notes">
+        <h3>What’s “latest” in this guide</h3>
+        <ul>
+          <li><b>Microsoft Sentinel</b> is GA in the <b>Defender portal</b>; Azure portal redirection starts July 2026.</li>
+          <li><b>Azure OpenAI</b> documentation is under <b>Azure AI Foundry</b>; v1 APIs opt-in from Aug 2025.</li>
+          <li><b>Automation Update Management</b> retired Aug 31, 2024 — use <b>Azure Update Manager</b>.</li>
+          <li><b>PCI DSS v4.0</b> has a built-in <b>Azure Policy Regulatory Compliance</b> initiative mapping controls.</li>
+        </ul>
+        <p class="muted">Last reviewed: Jan 16, 2026 (Asia/Manila)</p>
+      </section>
+
+      <section class="notes">
+        <h3>How to run</h3>
+        <ol>
+          <li>Open this folder in VS Code.</li>
+          <li>Run <code>python -m http.server 8000</code></li>
+          <li>Visit <code>http://localhost:8000</code></li>
+        </ol>
+      </section>
+    </aside>
+
+    <section class="content">
+      <div id="projects"></div>
+      <footer class="footer">
+        <p>Built for Kendaks R&amp;D • Always validate service behavior and pricing against Microsoft Learn and Azure portal.</p>
+      </footer>
+    </section>
+  </main>
+
+  <script src="js/projects.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
