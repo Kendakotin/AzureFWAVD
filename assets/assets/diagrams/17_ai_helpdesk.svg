@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" fill="none">
+<rect width="1200" height="420" rx="18" fill="#0b1220" stroke="#1e293b" stroke-width="2"/>
+<text x="24" y="40" fill="#e2e8f0" font-size="20" font-family="system-ui,Segoe UI,Roboto">AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG)</text>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L7,3 z" fill="#60a5fa"/></marker></defs>
+<path d="M150.0 180 C 330.0 180, 330.0 180, 510.0 180" stroke="#60a5fa" stroke-width="3" fill="none" marker-end="url(#arrow)" opacity="0.8"/>
+<path d="M150.0 180 C 240.0 180, 240.0 180, 330.0 180" stroke="#60a5fa" stroke-width="3" fill="none" marker-end="url(#arrow)" opacity="0.8"/>
+<path d="M330.0 180 C 420.0 180, 420.0 180, 510.0 180" stroke="#60a5fa" stroke-width="3" fill="none" marker-end="url(#arrow)" opacity="0.8"/>
+<path d="M510.0 180 C 600.0 180, 600.0 180, 690.0 180" stroke="#60a5fa" stroke-width="3" fill="none" marker-end="url(#arrow)" opacity="0.8"/>
+<path d="M690.0 180 C 870.0 180, 870.0 180, 1050.0 180" stroke="#60a5fa" stroke-width="3" fill="none" marker-end="url(#arrow)" opacity="0.8"/>
+<path d="M510.0 180 C 690.0 180, 690.0 180, 870.0 180" stroke="#60a5fa" stroke-width="3" fill="none" marker-end="url(#arrow)" opacity="0.8"/>
+<rect x="65.0" y="144.0" width="170" height="72" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+<text x="150.0" y="180" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui,Segoe UI,Roboto">ITSM</text>
+<rect x="245.0" y="144.0" width="170" height="72" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+<text x="330.0" y="180" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui,Segoe UI,Roboto">Azure AI Search</text>
+<rect x="425.0" y="144.0" width="170" height="72" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+<text x="510.0" y="180" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui,Segoe UI,Roboto">Azure AI Foundry</text>
+<rect x="605.0" y="144.0" width="170" height="72" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+<text x="690.0" y="180" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui,Segoe UI,Roboto">Logic Apps</text>
+<rect x="785.0" y="144.0" width="170" height="72" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+<text x="870.0" y="180" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui,Segoe UI,Roboto">Teams</text>
+<rect x="965.0" y="144.0" width="170" height="72" rx="14" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+<text x="1050.0" y="180" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="system-ui,Segoe UI,Roboto">Runbooks</text>
+</svg>

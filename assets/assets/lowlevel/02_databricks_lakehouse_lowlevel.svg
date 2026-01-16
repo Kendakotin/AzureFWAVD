@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+<rect x="0" y="0" width="1200" height="700" fill="#0b1220"/>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L10,3 L0,6 Z" fill="#60a5fa" /></marker>
+</defs>
+<rect x="40" y="40" width="1120" height="64" rx="14" fill="#0f172a" stroke="#1e293b"/>
+<text x="58" y="80" fill="#e2e8f0" font-family="Segoe UI, Arial" font-size="22" font-weight="700">Low-level: Databricks Lakehouse (Private + Unity Catalog)</text>
+<text x="58" y="98" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">Implementation view • identity • network • data • ops</text>
+<line x1="400.0" y1="209.0" x2="800.0" y2="209.0" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrow)" opacity="0.9"/>
+<line x1="780.0" y1="209.0" x2="800.0" y2="209.0" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrow)" opacity="0.9"/>
+<line x1="980.0" y1="209.0" x2="315.0" y2="419.0" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrow)" opacity="0.9"/>
+<line x1="885.0" y1="419.0" x2="980.0" y2="209.0" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrow)" opacity="0.9"/>
+<line x1="885.0" y1="419.0" x2="315.0" y2="419.0" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrow)" opacity="0.9"/>
+<rect x="40.0" y="124" width="360.0" height="170" rx="16" fill="#0f172a" stroke="#1e293b"/>
+<text x="56.0" y="158" fill="#e2e8f0" font-family="Segoe UI, Arial" font-size="16" font-weight="700">Sources</text>
+<text x="62.0" y="184" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Event Hubs (stream)</text>
+<text x="62.0" y="202" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Batch files</text>
+<text x="62.0" y="220" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• DB extracts</text>
+<rect x="420.0" y="124" width="360.0" height="170" rx="16" fill="#0f172a" stroke="#1e293b"/>
+<text x="436.0" y="158" fill="#e2e8f0" font-family="Segoe UI, Arial" font-size="16" font-weight="700">Network</text>
+<text x="442.0" y="184" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Spoke VNet (injected)</text>
+<text x="442.0" y="202" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Private Endpoints: ADLS/KV</text>
+<text x="442.0" y="220" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• UDR to Azure Firewall (egress)</text>
+<rect x="800.0" y="124" width="360.0" height="170" rx="16" fill="#0f172a" stroke="#1e293b"/>
+<text x="816.0" y="158" fill="#e2e8f0" font-family="Segoe UI, Arial" font-size="16" font-weight="700">Compute</text>
+<text x="822.0" y="184" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Databricks Workspace</text>
+<text x="822.0" y="202" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Jobs/Workflows</text>
+<text x="822.0" y="220" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Unity Catalog governance</text>
+<rect x="40.0" y="334" width="550.0" height="170" rx="16" fill="#0f172a" stroke="#1e293b"/>
+<text x="56.0" y="368" fill="#e2e8f0" font-family="Segoe UI, Arial" font-size="16" font-weight="700">Data Plane</text>
+<text x="62.0" y="394" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• ADLS Gen2: bronze/silver/gold</text>
+<text x="62.0" y="412" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Delta tables + checkpoints</text>
+<text x="62.0" y="430" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• External locations</text>
+<rect x="610.0" y="334" width="550.0" height="170" rx="16" fill="#0f172a" stroke="#1e293b"/>
+<text x="626.0" y="368" fill="#e2e8f0" font-family="Segoe UI, Arial" font-size="16" font-weight="700">Ops + Security</text>
+<text x="632.0" y="394" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Key Vault secrets</text>
+<text x="632.0" y="412" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Log Analytics + alerts</text>
+<text x="632.0" y="430" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="12">• Budgets/cluster policies</text>
+<text x="40" y="676" fill="#94a3b8" font-family="Segoe UI, Arial" font-size="11">Tip: keep endpoint allowlists and policy rules in version control (don't hardcode in diagrams).</text>
+</svg>
