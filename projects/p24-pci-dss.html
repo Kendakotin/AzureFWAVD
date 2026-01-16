@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0)</div>
+      <div class="side-meta">Compliance</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p23-incident-command.html">← Real-Time Monitoring &amp; Inciden…</a>
+      <span class="side-note">No next project</span>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0)</h1>
+        <p class="meta">Category: <b>Compliance</b></p>
+        <div class="callout">Scenario: A payment workflow must be segmented, logged, and continuously assessed. Example: &#39;Kendaks Pay&#39; processes card payments via a PCI zone, tokenizes data, and centralizes audit logs.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/24_pci_dss.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/24_pci_dss.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p24-pci-dss.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p24-pci-dss.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define PCI scope and segmentation</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p24-pci-dss-1" class="zoom">
+              <img src="../assets/screens/p24-pci-dss/step-01.png" alt="Reference screenshot for PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Minimize scope: tokenize early, avoid storing PAN.</li><li>Create a dedicated PCI subscription/RGs and networks.</li><li>Define network segmentation and jump host access.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p24-pci-dss-1" href="#step-1">
+          <img src="../assets/screens/p24-pci-dss/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/network.svg" alt="Network" />
+            <h3>Build PCI network zone</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p24-pci-dss-2" class="zoom">
+              <img src="../assets/screens/p24-pci-dss/step-02.png" alt="Reference screenshot for PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Hub-spoke or isolated VNet with strict NSGs.</li><li>Use Firewall/WAF, DDoS, and restricted outbound.</li><li>Use private endpoints to PaaS.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The target VNet/subnets/peerings/UDRs/NSGs are deployed with no errors.</li><li>Connectivity test passes (e.g., Network Watcher connection troubleshoot / ping between subnets where allowed).</li><li>Egress is controlled (traffic observed in Firewall logs if applicable).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p24-pci-dss-2" href="#step-2">
+          <img src="../assets/screens/p24-pci-dss/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Key management and encryption</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p24-pci-dss-3" class="zoom">
+              <img src="../assets/screens/p24-pci-dss/step-03.png" alt="Reference screenshot for PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Key Vault or Managed HSM for keys.</li><li>Enable CMK where required.</li><li>Rotate keys and certificates with auditable procedures.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p24-pci-dss-3" href="#step-3">
+          <img src="../assets/screens/p24-pci-dss/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Logging, monitoring, and retention</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p24-pci-dss-4" class="zoom">
+              <img src="../assets/screens/p24-pci-dss/step-04.png" alt="Reference screenshot for PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable diagnostics for all components.</li><li>Centralize logs into SIEM; ensure immutability where required.</li><li>Alert on suspicious activities and access to cardholder systems.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p24-pci-dss-4" href="#step-4">
+          <img src="../assets/screens/p24-pci-dss/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/govern.svg" alt="Govern" />
+            <h3>Continuous compliance with Azure Policy</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p24-pci-dss-5" class="zoom">
+              <img src="../assets/screens/p24-pci-dss/step-05.png" alt="Reference screenshot for PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Assign the built-in PCI DSS v4.0 initiative.</li><li>Remediate non-compliant resources.</li><li>Generate evidence reports for auditors.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>RBAC/roles are assigned to Entra groups (no direct user assignments).</li><li>Policies/labels/lineage settings are enabled as required.</li><li>Audit logs are enabled and flowing to the central workspace/SIEM.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p24-pci-dss-5" href="#step-5">
+          <img src="../assets/screens/p24-pci-dss/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Security testing and audits</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p24-pci-dss-6" class="zoom">
+              <img src="../assets/screens/p24-pci-dss/step-06.png" alt="Reference screenshot for PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Run vulnerability scans and penetration tests.</li><li>Verify change management and access reviews.</li><li>Conduct annual PCI assessments and quarterly ASV scans.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p24-pci-dss-6" href="#step-6">
+          <img src="../assets/screens/p24-pci-dss/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (Compliance) — search: PCI DSS / Regulatory Compliance</a></li><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search: Azure Policy / compliance)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/governance/policy/samples/pci-dss-4-0" target="_blank" rel="noopener">Azure Policy PCI DSS v4.0 built-in initiative</a></li><li><a href="https://learn.microsoft.com/en-us/azure/security/" target="_blank" rel="noopener">Azure security documentation</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p23-incident-command.html">← Previous</a>
+        <span></span>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

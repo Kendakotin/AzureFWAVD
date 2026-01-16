@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions)</div>
+      <div class="side-meta">DevOps</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p18-soc-automation.html">← SOC Automation &amp; Threat Intell…</a>
+      <a class="side-link" href="p20-finops.html">Cloud Cost Optimization &amp; FinO… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions)</h1>
+        <p class="meta">Category: <b>DevOps</b></p>
+        <div class="callout">Scenario: Platform team wants repeatable, audited infra deployments. Example: &#39;Kendaks Platform&#39; provisions VNets, AKS, and PaaS with Bicep modules.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/19_cicd_iac.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/19_cicd_iac.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p19-cicd-iac.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p19-cicd-iac.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Modularize your IaC</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p19-cicd-iac-1" class="zoom">
+              <img src="../assets/screens/p19-cicd-iac/step-01.png" alt="Reference screenshot for CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create reusable modules (network, storage, identity, monitoring).</li><li>Define parameters per environment.</li><li>Adopt naming and tagging standards.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p19-cicd-iac-1" href="#step-1">
+          <img src="../assets/screens/p19-cicd-iac/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/cicd.svg" alt="CI/CD" />
+            <h3>Validate IaC in CI</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p19-cicd-iac-2" class="zoom">
+              <img src="../assets/screens/p19-cicd-iac/step-02.png" alt="Reference screenshot for CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Run <code>bicep build</code> and lints.</li><li>Run what-if previews on PRs.</li><li>Require code reviews and approvals.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code>az deployment sub what-if --location eastus --template-file main.bicep --parameters env=dev</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Pipeline runs succeed (build/test/package) and artifacts are versioned.</li><li>Deploy stages require approvals for production and have rollback strategy.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p19-cicd-iac-2" href="#step-2">
+          <img src="../assets/screens/p19-cicd-iac/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/govern.svg" alt="Govern" />
+            <h3>Policy and guardrails</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p19-cicd-iac-3" class="zoom">
+              <img src="../assets/screens/p19-cicd-iac/step-03.png" alt="Reference screenshot for CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Azure Policy to deny insecure configurations.</li><li>Require diagnostics settings via deployIfNotExists.</li><li>Enforce tags and regions.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>RBAC/roles are assigned to Entra groups (no direct user assignments).</li><li>Policies/labels/lineage settings are enabled as required.</li><li>Audit logs are enabled and flowing to the central workspace/SIEM.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p19-cicd-iac-3" href="#step-3">
+          <img src="../assets/screens/p19-cicd-iac/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/deploy.svg" alt="Deploy" />
+            <h3>Deploy with GitHub Actions (OIDC)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p19-cicd-iac-4" class="zoom">
+              <img src="../assets/screens/p19-cicd-iac/step-04.png" alt="Reference screenshot for CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use federated credentials for GitHub → Azure.</li><li>Deploy to dev automatically; gate prod.</li><li>Store deployment outputs for app pipelines.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Deployment completed; smoke tests passed; rollback plan confirmed.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p19-cicd-iac-4" href="#step-4">
+          <img src="../assets/screens/p19-cicd-iac/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Post-deploy validation</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p19-cicd-iac-5" class="zoom">
+              <img src="../assets/screens/p19-cicd-iac/step-05.png" alt="Reference screenshot for CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Run health checks and synthetic tests.</li><li>Validate policy compliance.</li><li>Generate change logs per release.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p19-cicd-iac-5" href="#step-5">
+          <img src="../assets/screens/p19-cicd-iac/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Disaster recovery of IaC</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p19-cicd-iac-6" class="zoom">
+              <img src="../assets/screens/p19-cicd-iac/step-06.png" alt="Reference screenshot for CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Back up state (if using Terraform).</li><li>Rebuild environment from scratch periodically.</li><li>Document break-glass deployment procedure.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p19-cicd-iac-6" href="#step-6">
+          <img src="../assets/screens/p19-cicd-iac/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search for Bicep / Terraform / IaC)</a></li><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (IaC/DevOps)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/" target="_blank" rel="noopener">Bicep documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/developer/github/" target="_blank" rel="noopener">GitHub Actions for Azure</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p18-soc-automation.html">← Previous</a>
+        <a class="btn" href="p20-finops.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

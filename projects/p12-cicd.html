@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Creating a CI/CD Pipeline (Build, Test, Deploy) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Creating a CI/CD Pipeline (Build, Test, Deploy)</div>
+      <div class="side-meta">DevOps</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p11-azure-sql.html">← Setting Up an Azure SQL Database (…</a>
+      <a class="side-link" href="p13-serverless.html">Building a Serverless Architecture… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Creating a CI/CD Pipeline (Build, Test, Deploy)</h1>
+        <p class="meta">Category: <b>DevOps</b></p>
+        <div class="callout">Scenario: Dev teams want consistent releases with quality gates. Example: &#39;Kendaks Apps&#39; uses GitHub Actions to deploy web apps and APIs across dev/test/prod.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/12_cicd_pipeline.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/12_cicd_pipeline.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p12-cicd.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p12-cicd.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define environments and release strategy</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p12-cicd-1" class="zoom">
+              <img src="../assets/screens/p12-cicd/step-01.png" alt="Reference screenshot for Creating a CI/CD Pipeline (Build, Test, Deploy) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use dev/test/prod subscriptions or resource groups.</li><li>Decide branching (trunk-based or GitFlow).</li><li>Define approvals for production.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p12-cicd-1" href="#step-1">
+          <img src="../assets/screens/p12-cicd/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/cicd.svg" alt="CI/CD" />
+            <h3>Implement CI pipeline (build + unit tests)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p12-cicd-2" class="zoom">
+              <img src="../assets/screens/p12-cicd/step-02.png" alt="Reference screenshot for Creating a CI/CD Pipeline (Build, Test, Deploy) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Run lint, unit tests, SAST, dependency scanning.</li><li>Publish build artifacts with version tags.</li><li>Fail fast on quality issues.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code># GitHub Actions (snippet)
+- name: Build
+  run: npm ci &amp;&amp; npm test
+- name: Upload artifact
+  uses: actions/upload-artifact@v4
+  with: { name: drop, path: dist }</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Pipeline runs succeed (build/test/package) and artifacts are versioned.</li><li>Deploy stages require approvals for production and have rollback strategy.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p12-cicd-2" href="#step-2">
+          <img src="../assets/screens/p12-cicd/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Add integration tests and staging deployments</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p12-cicd-3" class="zoom">
+              <img src="../assets/screens/p12-cicd/step-03.png" alt="Reference screenshot for Creating a CI/CD Pipeline (Build, Test, Deploy) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Deploy to a staging slot.</li><li>Run smoke tests and contract tests.</li><li>Promote if tests pass.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p12-cicd-3" href="#step-3">
+          <img src="../assets/screens/p12-cicd/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/deploy.svg" alt="Deploy" />
+            <h3>CD: Deploy to Azure with approvals</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p12-cicd-4" class="zoom">
+              <img src="../assets/screens/p12-cicd/step-04.png" alt="Reference screenshot for Creating a CI/CD Pipeline (Build, Test, Deploy) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use OIDC federated credentials instead of long-lived secrets.</li><li>Use deployment slots and swap.</li><li>Require manual approval for prod stage.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Deployment completed; smoke tests passed; rollback plan confirmed.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p12-cicd-4" href="#step-4">
+          <img src="../assets/screens/p12-cicd/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Post-deploy monitoring</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p12-cicd-5" class="zoom">
+              <img src="../assets/screens/p12-cicd/step-05.png" alt="Reference screenshot for Creating a CI/CD Pipeline (Build, Test, Deploy) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Application Insights and alerts.</li><li>Monitor error rate, p95 latency, availability.</li><li>Auto-create incident if SLO violated.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p12-cicd-5" href="#step-5">
+          <img src="../assets/screens/p12-cicd/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/dr.svg" alt="DR" />
+            <h3>Rollback strategy</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p12-cicd-6" class="zoom">
+              <img src="../assets/screens/p12-cicd/step-06.png" alt="Reference screenshot for Creating a CI/CD Pipeline (Build, Test, Deploy) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use slot swap rollback or redeploy previous artifact.</li><li>Maintain release notes and change log.</li><li>Automate database rollback planning (forward-only migrations preferred).</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Failover procedure is documented and tested (tabletop + technical drill).</li><li>RPO/RTO measured and meets requirements.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p12-cicd-6" href="#step-6">
+          <img src="../assets/screens/p12-cicd/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search for GitHub Actions / Azure Pipelines)</a></li><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (DevOps)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/developer/github/" target="_blank" rel="noopener">GitHub Actions for Azure</a></li><li><a href="https://learn.microsoft.com/en-us/azure/app-service/deploy-staging-slots" target="_blank" rel="noopener">App Service deployment slots</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p11-azure-sql.html">← Previous</a>
+        <a class="btn" href="p13-serverless.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse)</div>
+      <div class="side-meta">Data &amp; Analytics</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <span class="side-note">No previous project</span>
+      <a class="side-link" href="p02-databricks-lakehouse.html">Developing a Big Data Solution wit… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse)</h1>
+        <p class="meta">Category: <b>Data &amp; Analytics</b></p>
+        <div class="callout">Scenario: A BPO needs a modern analytics platform to consolidate CRM, ticketing, and finance data for daily SLA reporting. Example: &#39;Kendaks Support&#39; ingests 20+ sources, supports self‑serve Power BI, and enforces governance.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/01_fabric_warehouse.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/01_fabric_warehouse.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p01-fabric-warehouse.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p01-fabric-warehouse.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><h4>Capacity &amp; workspaces</h4>
+<ul>
+<li><b>Capacities</b>: <code>cap-fabric-npr</code> (DEV/TST), <code>cap-fabric-prd</code> (PRD).</li>
+<li><b>Workspaces</b>: <code>ws-dwh-dev</code>, <code>ws-dwh-tst</code>, <code>ws-dwh-prd</code>.</li>
+<li><b>Entra groups</b> (assign roles via groups only): <code>FAB-DataEngineers</code>, <code>FAB-DataAnalysts</code>, <code>FAB-DataStewards</code>, <code>FAB-ReleaseApprovers</code>. Use PIM for admin roles.</li>
+</ul>
+
+<h4>Data zones in OneLake (medallion)</h4>
+<ul>
+<li><b>Bronze</b>: raw append-only files under <code>/Files/bronze/&lt;source&gt;/&lt;entity&gt;/ingest_date=YYYY-MM-DD/</code>.</li>
+<li><b>Silver</b>: conformed Delta tables <code>/Tables/silver_*</code> (DQ checks + dedupe + standard types).</li>
+<li><b>Gold</b>: business-ready tables <code>/Tables/gold_*</code> feeding the curated Warehouse.</li>
+</ul>
+
+<h4>Core Fabric items (per workspace)</h4>
+<ul>
+<li>Lakehouses: <code>lh_bronze</code>, <code>lh_silver</code>, <code>lh_gold</code>.</li>
+<li>Warehouse: <code>wh_curated</code> (facts/dims; RLS where required).</li>
+<li>Pipelines/Dataflows Gen2: ingestion + transforms; notebooks optional for Spark transforms.</li>
+</ul>
+
+<h4>Connectivity to sources</h4>
+<ul>
+<li><b>SaaS sources</b>: Dataflows Gen2 / Pipeline connectors (incremental where supported).</li>
+<li><b>Azure sources</b>: Pipelines Copy activity (watermark/CDC patterns).</li>
+<li><b>On-prem</b>: hardened Data Gateway nodes (recommend 2 for HA) + secrets in Key Vault + patching via Update Manager.</li>
+</ul>
+
+<h4>Observability &amp; reliability</h4>
+<ul>
+<li>Track pipeline failures, durations, rows processed, refresh success, and capacity utilization.</li>
+<li>Persist DQ results (e.g., null %, duplicates) in a Gold ops table like <code>gold_ops_dq_results</code>, alert on thresholds.</li>
+</ul>
+
+<h4>CI/CD &amp; promotion</h4>
+<ul>
+<li>Git-enabled workspace; promote DEV → TST → PRD with approval gates.</li>
+<li>Parameterize connections/workspace IDs; block breaking schema changes with contract + DQ tests.</li>
+</ul>
+
+<h4>DR notes</h4>
+<ul>
+<li>Fabric is managed; DR focuses on reproducibility (Git + pipelines), gateway HA, and recoverable sources.</li>
+</ul>
+
+<h4>Mermaid (copy/paste)</h4>
+<pre><code>flowchart LR
+  subgraph Sources
+    SaaS[SaaS Apps]
+    SQL[(Azure SQL / MI)]
+    OP[(On-Prem DBs)]
+  end
+  subgraph Support
+    GW[Data Gateway (HA)]
+    KV[Key Vault]
+  end
+  subgraph Fabric
+    P[Pipelines / Dataflows]
+    B[OneLake Bronze]
+    S[OneLake Silver]
+    G[OneLake Gold]
+    WH[Warehouse Curated]
+    BI[Power BI Semantic Model]
+    NB[Notebooks (optional)]
+  end
+  OP --> GW --> P
+  KV --> GW
+  SaaS --> P
+  SQL --> P
+  P --> B --> NB --> S --> NB --> G --> WH --> BI</code></pre></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Design your warehouse model and domains</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p01-fabric-warehouse-1" class="zoom">
+              <img src="../assets/screens/p01-fabric-warehouse/step-01.png" alt="Reference screenshot for Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Define business domains (Operations, Finance, QA) and data products.</li><li>Choose star schema for BI and medallion (bronze/silver/gold) for lakehouse.</li><li>Agree on refresh SLAs and retention.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p01-fabric-warehouse-1" href="#step-1">
+          <img src="../assets/screens/p01-fabric-warehouse/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/data.svg" alt="Data" />
+            <h3>Provision Fabric workspace, OneLake and core items</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p01-fabric-warehouse-2" class="zoom">
+              <img src="../assets/screens/p01-fabric-warehouse/step-02.png" alt="Reference screenshot for Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create a Fabric workspace and capacity (if required).</li><li>Create a Lakehouse (bronze/silver/gold) and a Warehouse for curated marts.</li><li>Set item permissions using workspace roles.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The storage/lakehouse/warehouse resources are created and accessible via least privilege.</li><li>A sample dataset lands successfully and can be queried/read end-to-end.</li><li>Retention, encryption, and backup settings match requirements.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p01-fabric-warehouse-2" href="#step-2">
+          <img src="../assets/screens/p01-fabric-warehouse/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/integrate.svg" alt="Integrate" />
+            <h3>Ingest data using Data Factory / Fabric pipelines</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p01-fabric-warehouse-3" class="zoom">
+              <img src="../assets/screens/p01-fabric-warehouse/step-03.png" alt="Reference screenshot for Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Copy activity for batch loads; incremental via watermarks/CDC where possible.</li><li>Land raw data in OneLake (bronze) and validate schema.</li><li>Document sources and owners in a data catalog.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code># Example: incremental load watermark concept
+# source_table WHERE modified_at &gt; @last_watermark
+# store @new_watermark after load</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Connections/authentication succeed and test messages/records flow through.</li><li>Retries/DLQ/error handling are configured and validated with a forced failure.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p01-fabric-warehouse-3" href="#step-3">
+          <img src="../assets/screens/p01-fabric-warehouse/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/govern.svg" alt="Govern" />
+            <h3>Govern: naming, access, lineage, and sensitivity labels</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p01-fabric-warehouse-4" class="zoom">
+              <img src="../assets/screens/p01-fabric-warehouse/step-04.png" alt="Reference screenshot for Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Adopt naming: <code>dp-ops-*</code>, <code>dp-fin-*</code>, etc.</li><li>Use Purview or Fabric governance features for catalog and lineage.</li><li>Apply sensitivity labels and enforce least privilege.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>RBAC/roles are assigned to Entra groups (no direct user assignments).</li><li>Policies/labels/lineage settings are enabled as required.</li><li>Audit logs are enabled and flowing to the central workspace/SIEM.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p01-fabric-warehouse-4" href="#step-4">
+          <img src="../assets/screens/p01-fabric-warehouse/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Monitoring and reliability</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p01-fabric-warehouse-5" class="zoom">
+              <img src="../assets/screens/p01-fabric-warehouse/step-05.png" alt="Reference screenshot for Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Track pipeline failures, refresh durations, and capacity utilization.</li><li>Set alerts for SLA breaches and data freshness.</li><li>Implement 'data quality gates' before publishing gold tables.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p01-fabric-warehouse-5" href="#step-5">
+          <img src="../assets/screens/p01-fabric-warehouse/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Validate with BI workloads</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p01-fabric-warehouse-6" class="zoom">
+              <img src="../assets/screens/p01-fabric-warehouse/step-06.png" alt="Reference screenshot for Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Build a sample Power BI semantic model on the Warehouse.</li><li>Validate performance: partitioning, aggregations, and caching.</li><li>Run user acceptance tests with operations managers.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p01-fabric-warehouse-6" href="#step-6">
+          <img src="../assets/screens/p01-fabric-warehouse/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/shows/fabric-tech-talk-fridays/" target="_blank" rel="noopener">Fabric Tech Talk Fridays (video series)</a></li><li><a href="https://www.youtube.com/@MicrosoftFabric" target="_blank" rel="noopener">Microsoft Fabric (YouTube channel)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/fabric/" target="_blank" rel="noopener">Microsoft Fabric documentation</a></li><li><a href="https://learn.microsoft.com/en-us/fabric/data-factory/" target="_blank" rel="noopener">Data Factory in Microsoft Fabric (Pipelines)</a></li><li><a href="https://learn.microsoft.com/en-us/fabric/onelake/onelake-overview" target="_blank" rel="noopener">OneLake overview</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <span></span>
+        <a class="btn" href="p02-databricks-lakehouse.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

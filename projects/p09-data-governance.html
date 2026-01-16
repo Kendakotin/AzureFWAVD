@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Manage and Govern Data in Azure (Microsoft Purview) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Manage and Govern Data in Azure (Microsoft Purview)</div>
+      <div class="side-meta">Data Governance</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p08-bigdata-solution.html">← Developing a Big Data Solution (St…</a>
+      <a class="side-link" href="p10-azure-files.html">Azure Storage for File Management … →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Manage and Govern Data in Azure (Microsoft Purview)</h1>
+        <p class="meta">Category: <b>Data Governance</b></p>
+        <div class="callout">Scenario: A company needs a searchable data catalog, lineage, and PII controls. Example: &#39;Kendaks Data Office&#39; tracks datasets from ingestion to BI and enforces access rules.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/09_purview_governance.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/09_purview_governance.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p09-data-governance.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p09-data-governance.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define governance operating model</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p09-data-governance-1" class="zoom">
+              <img src="../assets/screens/p09-data-governance/step-01.png" alt="Reference screenshot for Manage and Govern Data in Azure (Microsoft Purview) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Assign roles: data owners, stewards, custodians.</li><li>Define naming standards and glossary terms.</li><li>Define classification policy (PII, PCI, HR).</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p09-data-governance-1" href="#step-1">
+          <img src="../assets/screens/p09-data-governance/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/deploy.svg" alt="Deploy" />
+            <h3>Deploy Microsoft Purview account</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p09-data-governance-2" class="zoom">
+              <img src="../assets/screens/p09-data-governance/step-02.png" alt="Reference screenshot for Manage and Govern Data in Azure (Microsoft Purview) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create Purview account and managed resources.</li><li>Set up private endpoints if required.</li><li>Configure permissions and data plane roles.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Deployment completed; smoke tests passed; rollback plan confirmed.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p09-data-governance-2" href="#step-2">
+          <img src="../assets/screens/p09-data-governance/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/data.svg" alt="Data" />
+            <h3>Register sources and run scans</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p09-data-governance-3" class="zoom">
+              <img src="../assets/screens/p09-data-governance/step-03.png" alt="Reference screenshot for Manage and Govern Data in Azure (Microsoft Purview) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Register ADLS, SQL, Fabric/Databricks where supported.</li><li>Configure scan rulesets and schedules.</li><li>Validate classification results.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The storage/lakehouse/warehouse resources are created and accessible via least privilege.</li><li>A sample dataset lands successfully and can be queried/read end-to-end.</li><li>Retention, encryption, and backup settings match requirements.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p09-data-governance-3" href="#step-3">
+          <img src="../assets/screens/p09-data-governance/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/govern.svg" alt="Govern" />
+            <h3>Glossary, stewardship, and access workflows</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p09-data-governance-4" class="zoom">
+              <img src="../assets/screens/p09-data-governance/step-04.png" alt="Reference screenshot for Manage and Govern Data in Azure (Microsoft Purview) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Build glossary aligned to the business.</li><li>Assign owners and approve publishing.</li><li>Use access request workflows and audit trails.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>RBAC/roles are assigned to Entra groups (no direct user assignments).</li><li>Policies/labels/lineage settings are enabled as required.</li><li>Audit logs are enabled and flowing to the central workspace/SIEM.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p09-data-governance-4" href="#step-4">
+          <img src="../assets/screens/p09-data-governance/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/integrate.svg" alt="Integrate" />
+            <h3>Integrate with analytics platforms</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p09-data-governance-5" class="zoom">
+              <img src="../assets/screens/p09-data-governance/step-05.png" alt="Reference screenshot for Manage and Govern Data in Azure (Microsoft Purview) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable lineage from ETL tools where available.</li><li>Link datasets to reports and dashboards.</li><li>Use tags to drive policy enforcement.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Connections/authentication succeed and test messages/records flow through.</li><li>Retries/DLQ/error handling are configured and validated with a forced failure.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p09-data-governance-5" href="#step-5">
+          <img src="../assets/screens/p09-data-governance/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Measure adoption and compliance</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p09-data-governance-6" class="zoom">
+              <img src="../assets/screens/p09-data-governance/step-06.png" alt="Reference screenshot for Manage and Govern Data in Azure (Microsoft Purview) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Track catalog coverage and freshness.</li><li>Review classification accuracy and false positives.</li><li>Report governance KPIs monthly.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p09-data-governance-6" href="#step-6">
+          <img src="../assets/screens/p09-data-governance/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/shows/azure-friday/enable-unified-data-governance-with-azure-purview" target="_blank" rel="noopener">Enable unified data governance with Azure Purview (Azure Friday)</a></li><li><a href="https://learn.microsoft.com/en-us/shows/azure-friday/govern-your-data-wherever-it-resides-with-azure-purview" target="_blank" rel="noopener">Govern your data wherever it resides with Azure Purview (Azure Friday)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/purview/" target="_blank" rel="noopener">Microsoft Purview documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/purview/concept-data-map" target="_blank" rel="noopener">Purview data map concepts</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p08-bigdata-solution.html">← Previous</a>
+        <a class="btn" href="p10-azure-files.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

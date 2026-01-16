@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Developing a Big Data Solution with Azure Databricks (Lakehouse) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Developing a Big Data Solution with Azure Databricks (Lakehouse)</div>
+      <div class="side-meta">Data &amp; Analytics</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p01-fabric-warehouse.html">← Data Warehousing on Microsoft Fabr…</a>
+      <a class="side-link" href="p03-hubspoke-firewall-avd.html">Azure Firewall Hub-and-Spoke Netwo… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Developing a Big Data Solution with Azure Databricks (Lakehouse)</h1>
+        <p class="meta">Category: <b>Data &amp; Analytics</b></p>
+        <div class="callout">Scenario: An e-commerce team needs scalable ETL and ML feature pipelines. Example: &#39;Kendaks Commerce&#39; processes clickstream and order events for near‑real‑time recommendations.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/02_databricks_lakehouse.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/02_databricks_lakehouse.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p02-databricks-lakehouse.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p02-databricks-lakehouse.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><h4>Subscriptions &amp; resource groups</h4>
+<ul>
+<li>Subscriptions: <code>workloads-data-npr</code>, <code>workloads-data-prd</code>.</li>
+<li>RGs (per env/region): <code>rg-dbx-*-core</code> (workspace), <code>rg-dbx-*-data</code> (ADLS/KV/PE), <code>rg-dbx-*-mon</code> (monitoring). Databricks creates a managed RG automatically.</li>
+</ul>
+
+<h4>Network (hub-spoke, forced egress)</h4>
+<ul>
+<li>Primary VNet: <code>vnet-dbx-prd-eus</code> <code>10.20.0.0/16</code>; Secondary: <code>vnet-dbx-prd-cus</code> <code>10.21.0.0/16</code>.</li>
+<li>Subnets: <code>snet-dbx-private</code> (<code>10.20.1.0/24</code>), optional <code>snet-dbx-public</code> (<code>10.20.2.0/24</code>), <code>snet-pe</code> (<code>10.20.3.0/24</code>).</li>
+<li>UDR on Databricks subnets: <code>0.0.0.0/0</code> → Hub Azure Firewall (egress allowlist + logging).</li>
+</ul>
+
+<h4>Private endpoints + DNS</h4>
+<ul>
+<li>Private Endpoints (in <code>snet-pe</code>): ADLS Gen2 <code>dfs</code> + <code>blob</code>, Key Vault <code>vault</code> (plus SQL/Cosmos/Event Hubs if used).</li>
+<li>Private DNS zones: <code>privatelink.dfs.core.windows.net</code>, <code>privatelink.blob.core.windows.net</code>, <code>privatelink.vaultcore.azure.net</code>; link to spoke and (optionally) hub VNets.</li>
+</ul>
+
+<h4>Data plane (ADLS Gen2)</h4>
+<ul>
+<li>Storage: HNS-enabled account (e.g., <code>stlkh-prd-eus-001</code>).</li>
+<li>Containers: <code>bronze</code>, <code>silver</code>, <code>gold</code>, <code>checkpoint</code>, <code>logs</code>.</li>
+</ul>
+
+<h4>Governance (Unity Catalog-first)</h4>
+<ul>
+<li>Metastore per environment; catalogs like <code>cat_bronze</code>/<code>cat_silver</code>/<code>cat_gold</code>.</li>
+<li>External locations map to ADLS paths; grant to Entra groups (engineers/analysts) and job identity.</li>
+<li>Cluster policies enforce allowed node types, autoscale limits, init scripts, and logging.</li>
+</ul>
+
+<h4>CI/CD (IaC + workspace objects)</h4>
+<ul>
+<li>IaC (Bicep/Terraform): VNet/subnets/UDR/NSG, private endpoints + DNS, ADLS, Key Vault, Databricks workspace.</li>
+<li>Workspace deploy: Databricks Repos + job definitions as code; promote DEV→TST→PRD with approvals.</li>
+<li>Prefer secretless auth from CI using federated/OIDC where supported; runtime secrets via Key Vault-backed scopes.</li>
+</ul>
+
+<h4>Monitoring &amp; cost controls</h4>
+<ul>
+<li>Cluster/job logs to ADLS <code>logs/</code>; central alerts on job failure, streaming lag, and DBU spikes.</li>
+<li>Budgets + alerts per subscription; cluster policy to prevent oversized instances.</li>
+</ul>
+
+<h4>DR/HA (multi-region)</h4>
+<ul>
+<li>Replicate ADLS using GZRS/RA-GZRS where required; pre-provision secondary workspace and networking.</li>
+<li>Failover runbook: switch schedules to secondary, validate checkpoints, and resume pipelines.</li>
+</ul>
+
+<h4>Mermaid (copy/paste)</h4>
+<pre><code>flowchart TB
+  subgraph Hub[Hub VNet]
+    AFW[Azure Firewall]
+    DNS[Private DNS / Resolver]
+  end
+  subgraph Spoke[vnet-dbx-prd-eus 10.20.0.0/16]
+    DBXSNET[snet-dbx-private]
+    PESNET[snet-pe]
+    DBX[Databricks Workspace]
+    PEADLS[PE: ADLS dfs/blob]
+    PEKV[PE: Key Vault]
+  end
+  ADLS[(ADLS Gen2)]
+  KV[(Key Vault)]
+  DBX -->|UDR 0/0| AFW
+  DBX --> PEADLS --> ADLS
+  DBX --> PEKV --> KV
+  DNS --- Spoke</code></pre></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Decide landing zone and governance model</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p02-databricks-lakehouse-1" class="zoom">
+              <img src="../assets/screens/p02-databricks-lakehouse/step-01.png" alt="Reference screenshot for Developing a Big Data Solution with Azure Databricks (Lakehouse) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Pick subscription structure (dev/test/prod) and resource groups.</li><li>Decide whether to use Azure managed VNet for Databricks.</li><li>Plan Unity Catalog metastore and data access patterns.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p02-databricks-lakehouse-1" href="#step-1">
+          <img src="../assets/screens/p02-databricks-lakehouse/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/network.svg" alt="Network" />
+            <h3>Secure networking (Private Link where needed)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p02-databricks-lakehouse-2" class="zoom">
+              <img src="../assets/screens/p02-databricks-lakehouse/step-02.png" alt="Reference screenshot for Developing a Big Data Solution with Azure Databricks (Lakehouse) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Deploy Databricks with VNet injection or managed VNet.</li><li>Use private endpoints for storage and key vault.</li><li>Restrict outbound with firewall/NAT and allowlisted FQDNs.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The target VNet/subnets/peerings/UDRs/NSGs are deployed with no errors.</li><li>Connectivity test passes (e.g., Network Watcher connection troubleshoot / ping between subnets where allowed).</li><li>Egress is controlled (traffic observed in Firewall logs if applicable).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p02-databricks-lakehouse-2" href="#step-2">
+          <img src="../assets/screens/p02-databricks-lakehouse/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/data.svg" alt="Data" />
+            <h3>Create Delta Lake tables and medallion layers</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p02-databricks-lakehouse-3" class="zoom">
+              <img src="../assets/screens/p02-databricks-lakehouse/step-03.png" alt="Reference screenshot for Developing a Big Data Solution with Azure Databricks (Lakehouse) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Ingest raw (bronze) from Event Hubs/ADLS.</li><li>Transform to silver (clean) and gold (serving).</li><li>Use Delta features: schema evolution, time travel.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code>-- Example Delta table
+CREATE TABLE gold.orders
+USING DELTA
+AS SELECT * FROM silver.orders_clean;</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The storage/lakehouse/warehouse resources are created and accessible via least privilege.</li><li>A sample dataset lands successfully and can be queried/read end-to-end.</li><li>Retention, encryption, and backup settings match requirements.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p02-databricks-lakehouse-3" href="#step-3">
+          <img src="../assets/screens/p02-databricks-lakehouse/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/govern.svg" alt="Govern" />
+            <h3>Implement Unity Catalog + RBAC</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p02-databricks-lakehouse-4" class="zoom">
+              <img src="../assets/screens/p02-databricks-lakehouse/step-04.png" alt="Reference screenshot for Developing a Big Data Solution with Azure Databricks (Lakehouse) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use catalogs/schemas aligned to domains.</li><li>Grant privileges to groups via Unity Catalog.</li><li>Enable audit logs and set retention for compliance.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>RBAC/roles are assigned to Entra groups (no direct user assignments).</li><li>Policies/labels/lineage settings are enabled as required.</li><li>Audit logs are enabled and flowing to the central workspace/SIEM.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p02-databricks-lakehouse-4" href="#step-4">
+          <img src="../assets/screens/p02-databricks-lakehouse/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/cicd.svg" alt="CI/CD" />
+            <h3>CI/CD for notebooks and jobs</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p02-databricks-lakehouse-5" class="zoom">
+              <img src="../assets/screens/p02-databricks-lakehouse/step-05.png" alt="Reference screenshot for Developing a Big Data Solution with Azure Databricks (Lakehouse) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Store notebooks in Git (Repos) and use deployment pipelines.</li><li>Use job clusters for predictable runs.</li><li>Promote configs via env variables/secret scopes.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Pipeline runs succeed (build/test/package) and artifacts are versioned.</li><li>Deploy stages require approvals for production and have rollback strategy.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p02-databricks-lakehouse-5" href="#step-5">
+          <img src="../assets/screens/p02-databricks-lakehouse/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Observability and cost controls</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p02-databricks-lakehouse-6" class="zoom">
+              <img src="../assets/screens/p02-databricks-lakehouse/step-06.png" alt="Reference screenshot for Developing a Big Data Solution with Azure Databricks (Lakehouse) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable cluster policies (limits, node types).</li><li>Track DBU usage and job duration.</li><li>Centralize logs to Log Analytics/SIEM.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p02-databricks-lakehouse-6" href="#step-6">
+          <img src="../assets/screens/p02-databricks-lakehouse/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/shows/azure-essentials-show/supercharge-data-and-ai-innovation-with-azure-databricks" target="_blank" rel="noopener">Supercharge Data and AI Innovation with Azure Databricks (Azure Essentials Show)</a></li><li><a href="https://www.youtube.com/playlist?list=PLahhVEj9XNTe88VlDh8G-rU6wHoBSKjAk" target="_blank" rel="noopener">DP-3011 playlist: Implementing a Data Analytics Solution with Azure Databricks</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/databricks/" target="_blank" rel="noopener">Azure Databricks documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/" target="_blank" rel="noopener">Unity Catalog</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p01-fabric-warehouse.html">← Previous</a>
+        <a class="btn" href="p03-hubspoke-firewall-avd.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

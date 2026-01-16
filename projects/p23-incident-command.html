@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana)</div>
+      <div class="side-meta">Operations</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p22-hybrid-integration.html">← Hybrid Cloud &amp; On-Prem Integra…</a>
+      <a class="side-link" href="p24-pci-dss.html">PCI DSS-Compliant Payment Processi… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana)</h1>
+        <p class="meta">Category: <b>Operations</b></p>
+        <div class="callout">Scenario: NOC needs a single pane of glass for services, SLAs, and incidents. Example: &#39;Kendaks Command Center&#39; uses dashboards, alerts, and war-room workflows.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/23_incident_command.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/23_incident_command.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p23-incident-command.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p23-incident-command.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define SLOs and alert strategy</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p23-incident-command-1" class="zoom">
+              <img src="../assets/screens/p23-incident-command/step-01.png" alt="Reference screenshot for Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Define key signals: availability, latency, saturation, errors.</li><li>Reduce noise with actionability rules.</li><li>Define severity and on-call rotations.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p23-incident-command-1" href="#step-1">
+          <img src="../assets/screens/p23-incident-command/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/deploy.svg" alt="Deploy" />
+            <h3>Centralize telemetry</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p23-incident-command-2" class="zoom">
+              <img src="../assets/screens/p23-incident-command/step-02.png" alt="Reference screenshot for Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create Log Analytics workspace per environment or central.</li><li>Enable diagnostics on key resources.</li><li>Standardize log tables and retention.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Deployment completed; smoke tests passed; rollback plan confirmed.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p23-incident-command-2" href="#step-2">
+          <img src="../assets/screens/p23-incident-command/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Dashboards (Workbooks + Grafana)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p23-incident-command-3" class="zoom">
+              <img src="../assets/screens/p23-incident-command/step-03.png" alt="Reference screenshot for Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Build Azure Monitor Workbooks for platform KPIs.</li><li>Use Managed Grafana for multi-source dashboards.</li><li>Create an incident view: top alerts, services impacted.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p23-incident-command-3" href="#step-3">
+          <img src="../assets/screens/p23-incident-command/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/integrate.svg" alt="Integrate" />
+            <h3>Incident automation</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p23-incident-command-4" class="zoom">
+              <img src="../assets/screens/p23-incident-command/step-04.png" alt="Reference screenshot for Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Action Groups for paging and ITSM creation.</li><li>Automate Teams war-room creation.</li><li>Track incident timeline and postmortems.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Connections/authentication succeed and test messages/records flow through.</li><li>Retries/DLQ/error handling are configured and validated with a forced failure.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p23-incident-command-4" href="#step-4">
+          <img src="../assets/screens/p23-incident-command/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Secure access to monitoring</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p23-incident-command-5" class="zoom">
+              <img src="../assets/screens/p23-incident-command/step-05.png" alt="Reference screenshot for Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use RBAC and least privilege for dashboards.</li><li>Separate reader vs responder roles.</li><li>Audit changes to alert rules.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p23-incident-command-5" href="#step-5">
+          <img src="../assets/screens/p23-incident-command/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Run incident simulations</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p23-incident-command-6" class="zoom">
+              <img src="../assets/screens/p23-incident-command/step-06.png" alt="Reference screenshot for Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Game days: simulate outage and validate paging.</li><li>Measure time-to-detect and time-to-mitigate.</li><li>Improve runbooks and dashboards.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p23-incident-command-6" href="#step-6">
+          <img src="../assets/screens/p23-incident-command/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (Monitoring)</a></li><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search for Azure Monitor / Managed Grafana)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/" target="_blank" rel="noopener">Azure Monitor</a></li><li><a href="https://learn.microsoft.com/en-us/azure/managed-grafana/" target="_blank" rel="noopener">Azure Managed Grafana</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p22-hybrid-integration.html">← Previous</a>
+        <a class="btn" href="p24-pci-dss.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

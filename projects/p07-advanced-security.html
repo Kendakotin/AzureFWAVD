@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault)</div>
+      <div class="side-meta">Security</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p06-integrations.html">← Enterprise Integrations (APIM + Se…</a>
+      <a class="side-link" href="p08-bigdata-solution.html">Developing a Big Data Solution (St… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault)</h1>
+        <p class="meta">Category: <b>Security</b></p>
+        <div class="callout">Scenario: A regulated SaaS must implement continuous posture management, centralized logging, and key management. Example: &#39;Kendaks Secure SaaS&#39; enforces baseline policies and responds to incidents with playbooks.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/07_advanced_security.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/07_advanced_security.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p07-advanced-security.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p07-advanced-security.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define security baseline and shared responsibility</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p07-advanced-security-1" class="zoom">
+              <img src="../assets/screens/p07-advanced-security/step-01.png" alt="Reference screenshot for Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Map controls to standards (CIS, PCI, ISO).</li><li>Define ownership: platform vs app teams.</li><li>Create break-glass accounts and emergency access.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p07-advanced-security-1" href="#step-1">
+          <img src="../assets/screens/p07-advanced-security/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Enable Defender for Cloud and baseline recommendations</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p07-advanced-security-2" class="zoom">
+              <img src="../assets/screens/p07-advanced-security/step-02.png" alt="Reference screenshot for Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable Defender plans (Servers, Storage, SQL, Containers as needed).</li><li>Review Secure Score and prioritize high-impact items.</li><li>Turn on continuous export for reporting.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p07-advanced-security-2" href="#step-2">
+          <img src="../assets/screens/p07-advanced-security/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/govern.svg" alt="Govern" />
+            <h3>Policy-as-code (deny, deployIfNotExists)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p07-advanced-security-3" class="zoom">
+              <img src="../assets/screens/p07-advanced-security/step-03.png" alt="Reference screenshot for Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Assign initiatives to management groups.</li><li>Use remediation tasks to auto-deploy diagnostics.</li><li>Gate deployments with policy compliance in CI.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>RBAC/roles are assigned to Entra groups (no direct user assignments).</li><li>Policies/labels/lineage settings are enabled as required.</li><li>Audit logs are enabled and flowing to the central workspace/SIEM.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p07-advanced-security-3" href="#step-3">
+          <img src="../assets/screens/p07-advanced-security/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Centralize logs in Sentinel (Defender portal) and build detections</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p07-advanced-security-4" class="zoom">
+              <img src="../assets/screens/p07-advanced-security/step-04.png" alt="Reference screenshot for Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Connect data sources (Entra ID, M365, Defender, Azure activity).</li><li>Build analytics rules and incident workflows.</li><li>Standardize investigation using workbooks.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p07-advanced-security-4" href="#step-4">
+          <img src="../assets/screens/p07-advanced-security/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/integrate.svg" alt="Integrate" />
+            <h3>Automate response (SOAR)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p07-advanced-security-5" class="zoom">
+              <img src="../assets/screens/p07-advanced-security/step-05.png" alt="Reference screenshot for Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create playbooks (Logic Apps) to isolate hosts, disable accounts, or block IPs.</li><li>Integrate ticketing (ServiceNow/Jira).</li><li>Record actions for auditability.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Connections/authentication succeed and test messages/records flow through.</li><li>Retries/DLQ/error handling are configured and validated with a forced failure.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p07-advanced-security-5" href="#step-5">
+          <img src="../assets/screens/p07-advanced-security/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Validate with attack simulation and tabletop exercises</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p07-advanced-security-6" class="zoom">
+              <img src="../assets/screens/p07-advanced-security/step-06.png" alt="Reference screenshot for Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Run purple-team validation using safe simulation tools.</li><li>Test alert fidelity and escalation.</li><li>Review MTTR and improve runbooks.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p07-advanced-security-6" href="#step-6">
+          <img src="../assets/screens/p07-advanced-security/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (Security) — search: Defender for Cloud / Sentinel</a></li><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search: Defender for Cloud / Sentinel)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/defender-for-cloud/" target="_blank" rel="noopener">Defender for Cloud documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/sentinel/microsoft-sentinel-defender-portal" target="_blank" rel="noopener">Microsoft Sentinel in Defender portal</a></li><li><a href="https://learn.microsoft.com/en-us/azure/key-vault/" target="_blank" rel="noopener">Azure Key Vault documentation</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p06-integrations.html">← Previous</a>
+        <a class="btn" href="p08-bigdata-solution.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

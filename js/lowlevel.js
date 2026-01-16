@@ -1,0 +1,27 @@
+// Auto-generated mapping: project id -> low-level diagram image
+window.KENDAKS_LOWLEVEL_IMAGES = {
+  "p01-fabric-warehouse": "assets/lowlevel-visio/p01-fabric-warehouse.png",
+  "p02-databricks-lakehouse": "assets/lowlevel-visio/p02-databricks-lakehouse.png",
+  "p03-hubspoke-firewall-avd": "assets/lowlevel-visio/p03-hubspoke-firewall-avd.png",
+  "p04-automation": "assets/lowlevel-visio/p04-automation.png",
+  "p05-logic-apps": "assets/lowlevel-visio/p05-logic-apps.png",
+  "p06-integrations": "assets/lowlevel-visio/p06-integrations.png",
+  "p07-advanced-security": "assets/lowlevel-visio/p07-advanced-security.png",
+  "p08-bigdata-solution": "assets/lowlevel-visio/p08-bigdata-solution.png",
+  "p09-data-governance": "assets/lowlevel-visio/p09-data-governance.png",
+  "p10-azure-files": "assets/lowlevel-visio/p10-azure-files.png",
+  "p11-azure-sql": "assets/lowlevel-visio/p11-azure-sql.png",
+  "p12-cicd": "assets/lowlevel-visio/p12-cicd.png",
+  "p13-serverless": "assets/lowlevel-visio/p13-serverless.png",
+  "p14-multi-region-dr": "assets/lowlevel-visio/p14-multi-region-dr.png",
+  "p15-zero-trust": "assets/lowlevel-visio/p15-zero-trust.png",
+  "p16-bpo-ha": "assets/lowlevel-visio/p16-bpo-ha.png",
+  "p17-ai-helpdesk": "assets/lowlevel-visio/p17-ai-helpdesk.png",
+  "p18-soc-automation": "assets/lowlevel-visio/p18-soc-automation.png",
+  "p19-cicd-iac": "assets/lowlevel-visio/p19-cicd-iac.png",
+  "p20-finops": "assets/lowlevel-visio/p20-finops.png",
+  "p21-secure-saas": "assets/lowlevel-visio/p21-secure-saas.png",
+  "p22-hybrid-integration": "assets/lowlevel-visio/p22-hybrid-integration.png",
+  "p23-incident-command": "assets/lowlevel-visio/p23-incident-command.png",
+  "p24-pci-dss": "assets/lowlevel-visio/p24-pci-dss.png"
+};

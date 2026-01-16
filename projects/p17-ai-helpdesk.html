@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG)</div>
+      <div class="side-meta">AI &amp; Automation</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p16-bpo-ha.html">← Multi-Region High Availability BPO…</a>
+      <a class="side-link" href="p18-soc-automation.html">SOC Automation &amp; Threat Intell… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG)</h1>
+        <p class="meta">Category: <b>AI &amp; Automation</b></p>
+        <div class="callout">Scenario: IT helpdesk wants faster resolution with AI summaries, suggested fixes, and automated actions. Example: &#39;Kendaks IT Helpdesk&#39; integrates ITSM tickets + internal KB and triggers Logic Apps remediation.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/17_ai_helpdesk.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/17_ai_helpdesk.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p17-ai-helpdesk.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p17-ai-helpdesk.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define intents, guardrails, and knowledge sources</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p17-ai-helpdesk-1" class="zoom">
+              <img src="../assets/screens/p17-ai-helpdesk/step-01.png" alt="Reference screenshot for AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Decide supported intents (password reset, VPN, device enrollment).</li><li>Define when AI can act automatically vs ask approval.</li><li>Identify data sources (KB, runbooks, wiki, ticket history).</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p17-ai-helpdesk-1" href="#step-1">
+          <img src="../assets/screens/p17-ai-helpdesk/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/data.svg" alt="Data" />
+            <h3>Build the knowledge index (RAG)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p17-ai-helpdesk-2" class="zoom">
+              <img src="../assets/screens/p17-ai-helpdesk/step-02.png" alt="Reference screenshot for AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Ingest documents into Azure AI Search.</li><li>Chunk and enrich content with metadata (system, owner, expiry).</li><li>Enable semantic ranking and filters.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The storage/lakehouse/warehouse resources are created and accessible via least privilege.</li><li>A sample dataset lands successfully and can be queried/read end-to-end.</li><li>Retention, encryption, and backup settings match requirements.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p17-ai-helpdesk-2" href="#step-2">
+          <img src="../assets/screens/p17-ai-helpdesk/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/ai.svg" alt="AI" />
+            <h3>Connect Azure AI Foundry model to your data</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p17-ai-helpdesk-3" class="zoom">
+              <img src="../assets/screens/p17-ai-helpdesk/step-03.png" alt="Reference screenshot for AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Deploy a model endpoint and configure 'On your data' with the search index.</li><li>Implement prompt templates for ticket classification and response drafting.</li><li>Return citations/links to KB sources.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Grounding/knowledge sources are configured and tested with sample prompts.</li><li>Safety filters and logging are enabled; access is least privilege.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p17-ai-helpdesk-3" href="#step-3">
+          <img src="../assets/screens/p17-ai-helpdesk/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/integrate.svg" alt="Integrate" />
+            <h3>Automate actions with Logic Apps / Functions</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p17-ai-helpdesk-4" class="zoom">
+              <img src="../assets/screens/p17-ai-helpdesk/step-04.png" alt="Reference screenshot for AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create workflows for approved remediations (restart service, disable account).</li><li>Integrate ticket updates back to ITSM.</li><li>Use managed identity and Key Vault for secrets.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Connections/authentication succeed and test messages/records flow through.</li><li>Retries/DLQ/error handling are configured and validated with a forced failure.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p17-ai-helpdesk-4" href="#step-4">
+          <img src="../assets/screens/p17-ai-helpdesk/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Monitoring and safety</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p17-ai-helpdesk-5" class="zoom">
+              <img src="../assets/screens/p17-ai-helpdesk/step-05.png" alt="Reference screenshot for AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Log prompts/responses with redaction.</li><li>Track resolution time and deflection rate.</li><li>Review hallucination/low-confidence responses.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p17-ai-helpdesk-5" href="#step-5">
+          <img src="../assets/screens/p17-ai-helpdesk/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Rollout and continuous improvement</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p17-ai-helpdesk-6" class="zoom">
+              <img src="../assets/screens/p17-ai-helpdesk/step-06.png" alt="Reference screenshot for AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Pilot with Tier-1 agents.</li><li>Collect feedback and retrain/adjust prompts.</li><li>Expand to self-service chatbot after success.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p17-ai-helpdesk-6" href="#step-6">
+          <img src="../assets/screens/p17-ai-helpdesk/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (AI) — search: Copilot Studio / Azure AI Foundry</a></li><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search: Azure AI / copilots)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/" target="_blank" rel="noopener">Azure AI Foundry (Azure OpenAI) docs</a></li><li><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/api-version-lifecycle?view=foundry-classic" target="_blank" rel="noopener">Azure OpenAI v1 API lifecycle (Aug 2025)</a></li><li><a href="https://learn.microsoft.com/en-us/azure/search/" target="_blank" rel="noopener">Azure AI Search documentation</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p16-bpo-ha.html">← Previous</a>
+        <a class="btn" href="p18-soc-automation.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

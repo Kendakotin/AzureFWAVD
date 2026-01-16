@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Azure Storage for File Management (Azure Files + Azure File Sync) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Azure Storage for File Management (Azure Files + Azure File Sync)</div>
+      <div class="side-meta">Storage</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p09-data-governance.html">← Manage and Govern Data in Azure (M…</a>
+      <a class="side-link" href="p11-azure-sql.html">Setting Up an Azure SQL Database (… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Azure Storage for File Management (Azure Files + Azure File Sync)</h1>
+        <p class="meta">Category: <b>Storage</b></p>
+        <div class="callout">Scenario: A hybrid office needs shared file drives with cloud backup. Example: &#39;Kendaks HQ&#39; migrates on-prem file shares to Azure Files with on-prem caching.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/10_azure_files.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/10_azure_files.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p10-azure-files.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p10-azure-files.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Assess shares and permissions</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p10-azure-files-1" class="zoom">
+              <img src="../assets/screens/p10-azure-files/step-01.png" alt="Reference screenshot for Azure Storage for File Management (Azure Files + Azure File Sync) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Inventory shares, sizes, ACLs, and access patterns.</li><li>Decide identity: Entra ID Kerberos / AD DS.</li><li>Plan migration waves.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p10-azure-files-1" href="#step-1">
+          <img src="../assets/screens/p10-azure-files/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/deploy.svg" alt="Deploy" />
+            <h3>Create storage account and Azure file shares</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p10-azure-files-2" class="zoom">
+              <img src="../assets/screens/p10-azure-files/step-02.png" alt="Reference screenshot for Azure Storage for File Management (Azure Files + Azure File Sync) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create Storage Account (enable large file shares if needed).</li><li>Create Azure Files shares and set quota.</li><li>Enable private endpoint for storage.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code>az storage account create -g rg-storage -n stkendaksfiles --sku Standard_LRS --kind StorageV2</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Deployment completed; smoke tests passed; rollback plan confirmed.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p10-azure-files-2" href="#step-2">
+          <img src="../assets/screens/p10-azure-files/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/identity.svg" alt="Identity" />
+            <h3>Set up authentication and RBAC</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p10-azure-files-3" class="zoom">
+              <img src="../assets/screens/p10-azure-files/step-03.png" alt="Reference screenshot for Azure Storage for File Management (Azure Files + Azure File Sync) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Configure SMB authentication (AD DS / Entra ID Kerberos as applicable).</li><li>Use RBAC for share access plus NTFS ACLs.</li><li>Enforce MFA/Conditional Access for admin operations.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Entra groups/roles are configured; privileged roles protected via PIM.</li><li>Conditional Access/MFA policies are enforced for relevant access paths.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p10-azure-files-3" href="#step-3">
+          <img src="../assets/screens/p10-azure-files/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/integrate.svg" alt="Integrate" />
+            <h3>Deploy Azure File Sync (optional)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p10-azure-files-4" class="zoom">
+              <img src="../assets/screens/p10-azure-files/step-04.png" alt="Reference screenshot for Azure Storage for File Management (Azure Files + Azure File Sync) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Install File Sync agent on on-prem server.</li><li>Create Sync Group and cloud endpoint.</li><li>Enable cloud tiering for cache efficiency.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Connections/authentication succeed and test messages/records flow through.</li><li>Retries/DLQ/error handling are configured and validated with a forced failure.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p10-azure-files-4" href="#step-4">
+          <img src="../assets/screens/p10-azure-files/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Enable backup + protection</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p10-azure-files-5" class="zoom">
+              <img src="../assets/screens/p10-azure-files/step-05.png" alt="Reference screenshot for Azure Storage for File Management (Azure Files + Azure File Sync) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable soft delete and snapshots.</li><li>Configure Azure Backup for file shares if required.</li><li>Turn on Defender for Storage alerts.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p10-azure-files-5" href="#step-5">
+          <img src="../assets/screens/p10-azure-files/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Cutover and validate</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p10-azure-files-6" class="zoom">
+              <img src="../assets/screens/p10-azure-files/step-06.png" alt="Reference screenshot for Azure Storage for File Management (Azure Files + Azure File Sync) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Run migration tool (AzCopy/Robocopy) with ACL preservation.</li><li>Validate permissions and performance.</li><li>Document restore procedures.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p10-azure-files-6" href="#step-6">
+          <img src="../assets/screens/p10-azure-files/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search for Azure Files / File Sync)</a></li><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (search: Azure Files)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/storage/files/" target="_blank" rel="noopener">Azure Files documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/storage/file-sync/" target="_blank" rel="noopener">Azure File Sync</a></li><li><a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10" target="_blank" rel="noopener">AzCopy</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p09-data-governance.html">← Previous</a>
+        <a class="btn" href="p11-azure-sql.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

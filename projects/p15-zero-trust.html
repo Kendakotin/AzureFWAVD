@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access)</div>
+      <div class="side-meta">Security</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p14-multi-region-dr.html">← Designing a Multi-Region Disaster …</a>
+      <a class="side-link" href="p16-bpo-ha.html">Multi-Region High Availability BPO… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access)</h1>
+        <p class="meta">Category: <b>Security</b></p>
+        <div class="callout">Scenario: Enterprise requires Zero Trust for cloud apps and admin access. Example: &#39;Kendaks Enterprise&#39; enforces MFA, device compliance, and least privilege for all workloads.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/15_zero_trust.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/15_zero_trust.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p15-zero-trust.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p15-zero-trust.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define identity plane and device posture rules</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p15-zero-trust-1" class="zoom">
+              <img src="../assets/screens/p15-zero-trust/step-01.png" alt="Reference screenshot for Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Define user groups, roles, and privileged access model.</li><li>Decide device compliance requirements (Intune / MDM).</li><li>Identify high-risk apps and admin portals.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p15-zero-trust-1" href="#step-1">
+          <img src="../assets/screens/p15-zero-trust/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/identity.svg" alt="Identity" />
+            <h3>Implement Conditional Access baseline</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p15-zero-trust-2" class="zoom">
+              <img src="../assets/screens/p15-zero-trust/step-02.png" alt="Reference screenshot for Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Require MFA for all users (exclude break-glass).</li><li>Require compliant devices for sensitive apps.</li><li>Block legacy authentication.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Entra groups/roles are configured; privileged roles protected via PIM.</li><li>Conditional Access/MFA policies are enforced for relevant access paths.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p15-zero-trust-2" href="#step-2">
+          <img src="../assets/screens/p15-zero-trust/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Privileged Identity Management (PIM)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p15-zero-trust-3" class="zoom">
+              <img src="../assets/screens/p15-zero-trust/step-03.png" alt="Reference screenshot for Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Make admin roles eligible with just-in-time activation.</li><li>Require approval and MFA for elevation.</li><li>Enable access reviews for critical roles.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p15-zero-trust-3" href="#step-3">
+          <img src="../assets/screens/p15-zero-trust/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/network.svg" alt="Network" />
+            <h3>Reduce exposure with Private Link and segmentation</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p15-zero-trust-4" class="zoom">
+              <img src="../assets/screens/p15-zero-trust/step-04.png" alt="Reference screenshot for Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use private endpoints for PaaS (SQL, Storage, Key Vault).</li><li>Adopt hub-spoke and restrict east-west traffic.</li><li>Apply WAF for public entry points.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The target VNet/subnets/peerings/UDRs/NSGs are deployed with no errors.</li><li>Connectivity test passes (e.g., Network Watcher connection troubleshoot / ping between subnets where allowed).</li><li>Egress is controlled (traffic observed in Firewall logs if applicable).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p15-zero-trust-4" href="#step-4">
+          <img src="../assets/screens/p15-zero-trust/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Threat detection and response</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p15-zero-trust-5" class="zoom">
+              <img src="../assets/screens/p15-zero-trust/step-05.png" alt="Reference screenshot for Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Send sign-in logs to SIEM.</li><li>Enable identity protection alerts.</li><li>Automate account disable/reset on high risk.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p15-zero-trust-5" href="#step-5">
+          <img src="../assets/screens/p15-zero-trust/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Validate Zero Trust with audits</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p15-zero-trust-6" class="zoom">
+              <img src="../assets/screens/p15-zero-trust/step-06.png" alt="Reference screenshot for Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Run access review reports monthly.</li><li>Test conditional access policies in report-only mode first.</li><li>Document exceptions with expiry.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p15-zero-trust-6" href="#step-6">
+          <img src="../assets/screens/p15-zero-trust/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search for Zero Trust / Entra Conditional Access)</a></li><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (Security)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/entra/" target="_blank" rel="noopener">Microsoft Entra documentation</a></li><li><a href="https://learn.microsoft.com/en-us/security/zero-trust/" target="_blank" rel="noopener">Zero Trust guidance</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p14-multi-region-dr.html">← Previous</a>
+        <a class="btn" href="p16-bpo-ha.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

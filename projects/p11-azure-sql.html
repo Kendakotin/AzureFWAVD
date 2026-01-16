@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Setting Up an Azure SQL Database (Security-first) — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Setting Up an Azure SQL Database (Security-first)</div>
+      <div class="side-meta">Databases</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p10-azure-files.html">← Azure Storage for File Management …</a>
+      <a class="side-link" href="p12-cicd.html">Creating a CI/CD Pipeline (Build, … →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Setting Up an Azure SQL Database (Security-first)</h1>
+        <p class="meta">Category: <b>Databases</b></p>
+        <div class="callout">Scenario: A line-of-business app needs a managed relational database with HA and security. Example: &#39;Kendaks Billing&#39; runs on Azure SQL with private endpoints and auditing.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/11_azure_sql.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/11_azure_sql.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p11-azure-sql.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p11-azure-sql.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Choose deployment model and sizing</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p11-azure-sql-1" class="zoom">
+              <img src="../assets/screens/p11-azure-sql/step-01.png" alt="Reference screenshot for Setting Up an Azure SQL Database (Security-first) step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Pick single database vs elastic pool.</li><li>Decide service tier (GP/BC) and zone redundancy.</li><li>Plan RPO/RTO and long-term retention.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p11-azure-sql-1" href="#step-1">
+          <img src="../assets/screens/p11-azure-sql/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/deploy.svg" alt="Deploy" />
+            <h3>Provision SQL server and database</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p11-azure-sql-2" class="zoom">
+              <img src="../assets/screens/p11-azure-sql/step-02.png" alt="Reference screenshot for Setting Up an Azure SQL Database (Security-first) step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create logical server and database.</li><li>Disable public network access if possible.</li><li>Enable zone redundancy for supported regions/tier.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code>az sql server create -g rg-data -n sql-kendaks -l eastus -u sqladmin -p &lt;PASSWORD&gt;
+az sql db create -g rg-data -s sql-kendaks -n kendaksdb --service-objective GP_S_Gen5_2</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Deployment completed; smoke tests passed; rollback plan confirmed.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p11-azure-sql-2" href="#step-2">
+          <img src="../assets/screens/p11-azure-sql/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/network.svg" alt="Network" />
+            <h3>Private connectivity</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p11-azure-sql-3" class="zoom">
+              <img src="../assets/screens/p11-azure-sql/step-03.png" alt="Reference screenshot for Setting Up an Azure SQL Database (Security-first) step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create Private Endpoint in the app VNet.</li><li>Configure private DNS zone <code>privatelink.database.windows.net</code>.</li><li>Verify resolution from app subnet.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The target VNet/subnets/peerings/UDRs/NSGs are deployed with no errors.</li><li>Connectivity test passes (e.g., Network Watcher connection troubleshoot / ping between subnets where allowed).</li><li>Egress is controlled (traffic observed in Firewall logs if applicable).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p11-azure-sql-3" href="#step-3">
+          <img src="../assets/screens/p11-azure-sql/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Security controls</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p11-azure-sql-4" class="zoom">
+              <img src="../assets/screens/p11-azure-sql/step-04.png" alt="Reference screenshot for Setting Up an Azure SQL Database (Security-first) step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable Defender for SQL recommendations.</li><li>Enable auditing to Log Analytics / Storage.</li><li>Enable TDE (default) and optionally CMK via Key Vault.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p11-azure-sql-4" href="#step-4">
+          <img src="../assets/screens/p11-azure-sql/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Performance monitoring</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p11-azure-sql-5" class="zoom">
+              <img src="../assets/screens/p11-azure-sql/step-05.png" alt="Reference screenshot for Setting Up an Azure SQL Database (Security-first) step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Query Store and performance insights.</li><li>Alert on DTU/vCore saturation, deadlocks, long queries.</li><li>Enable auto-tuning where appropriate.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p11-azure-sql-5" href="#step-5">
+          <img src="../assets/screens/p11-azure-sql/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/dr.svg" alt="DR" />
+            <h3>Backups and DR strategy</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p11-azure-sql-6" class="zoom">
+              <img src="../assets/screens/p11-azure-sql/step-06.png" alt="Reference screenshot for Setting Up an Azure SQL Database (Security-first) step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Configure LTR for compliance.</li><li>Implement geo-replication/failover groups for multi-region.</li><li>Test restore quarterly.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Failover procedure is documented and tested (tabletop + technical drill).</li><li>RPO/RTO measured and meets requirements.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p11-azure-sql-6" href="#step-6">
+          <img src="../assets/screens/p11-azure-sql/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday playlist (search for Azure SQL Database)</a></li><li><a href="https://azure.microsoft.com/en-us/resources/videos/" target="_blank" rel="noopener">Azure Videos (search: Azure SQL)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/" target="_blank" rel="noopener">Azure SQL Database documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/azure-sql/database/private-endpoint-overview" target="_blank" rel="noopener">Private endpoints for Azure SQL</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p10-azure-files.html">← Previous</a>
+        <a class="btn" href="p12-cicd.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

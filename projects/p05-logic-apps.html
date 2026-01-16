@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Azure Logic Apps for Workflow Automation — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Azure Logic Apps for Workflow Automation</div>
+      <div class="side-meta">Integration</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p04-automation.html">← Azure Automation (Runbooks) + Azur…</a>
+      <a class="side-link" href="p06-integrations.html">Enterprise Integrations (APIM + Se… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Azure Logic Apps for Workflow Automation</h1>
+        <p class="meta">Category: <b>Integration</b></p>
+        <div class="callout">Scenario: A service desk automates approvals and notifications across ITSM, email, Teams, and SharePoint. Example: &#39;Kendaks IT&#39; auto-approves low-risk requests and escalates exceptions.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/05_logic_apps.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/05_logic_apps.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p05-logic-apps.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p05-logic-apps.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Choose consumption vs standard and connectors</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p05-logic-apps-1" class="zoom">
+              <img src="../assets/screens/p05-logic-apps/step-01.png" alt="Reference screenshot for Azure Logic Apps for Workflow Automation step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use <b>Standard</b> for VNET integration and predictable workloads.</li><li>Inventory required connectors (M365, ServiceNow, SQL, SAP).</li><li>Decide idempotency strategy and retry behavior.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p05-logic-apps-1" href="#step-1">
+          <img src="../assets/screens/p05-logic-apps/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/integrate.svg" alt="Integrate" />
+            <h3>Build the workflow (trigger → actions → conditions)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p05-logic-apps-2" class="zoom">
+              <img src="../assets/screens/p05-logic-apps/step-02.png" alt="Reference screenshot for Azure Logic Apps for Workflow Automation step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use HTTP/webhook or Event Grid trigger.</li><li>Add parallel branches for notifications and record updates.</li><li>Use scopes and try/catch patterns for robust error handling.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code>// Pseudo-pattern: try/catch
+Scope: Try
+  - Do actions
+Scope: Catch
+  - Log + notify
+Scope: Finally
+  - Close ticket</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Connections/authentication succeed and test messages/records flow through.</li><li>Retries/DLQ/error handling are configured and validated with a forced failure.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p05-logic-apps-2" href="#step-2">
+          <img src="../assets/screens/p05-logic-apps/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Secure the workflow</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p05-logic-apps-3" class="zoom">
+              <img src="../assets/screens/p05-logic-apps/step-03.png" alt="Reference screenshot for Azure Logic Apps for Workflow Automation step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use managed identity for Azure resources.</li><li>Use Key Vault references for secrets.</li><li>Limit inbound triggers with IP restrictions or APIM.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p05-logic-apps-3" href="#step-3">
+          <img src="../assets/screens/p05-logic-apps/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/network.svg" alt="Network" />
+            <h3>Enterprise integration: Service Bus + API Management</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p05-logic-apps-4" class="zoom">
+              <img src="../assets/screens/p05-logic-apps/step-04.png" alt="Reference screenshot for Azure Logic Apps for Workflow Automation step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Service Bus for decoupling and backpressure.</li><li>Expose APIs through APIM with policies (JWT, rate limits).</li><li>Enable private endpoints where supported.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The target VNet/subnets/peerings/UDRs/NSGs are deployed with no errors.</li><li>Connectivity test passes (e.g., Network Watcher connection troubleshoot / ping between subnets where allowed).</li><li>Egress is controlled (traffic observed in Firewall logs if applicable).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p05-logic-apps-4" href="#step-4">
+          <img src="../assets/screens/p05-logic-apps/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Monitoring and troubleshooting</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p05-logic-apps-5" class="zoom">
+              <img src="../assets/screens/p05-logic-apps/step-05.png" alt="Reference screenshot for Azure Logic Apps for Workflow Automation step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable diagnostics to Log Analytics.</li><li>Use run history + tracked properties for business telemetry.</li><li>Create alerts for failed runs and DLQ growth.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p05-logic-apps-5" href="#step-5">
+          <img src="../assets/screens/p05-logic-apps/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/cicd.svg" alt="CI/CD" />
+            <h3>Deploy via CI/CD</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p05-logic-apps-6" class="zoom">
+              <img src="../assets/screens/p05-logic-apps/step-06.png" alt="Reference screenshot for Azure Logic Apps for Workflow Automation step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use ARM/Bicep or Terraform for infra.</li><li>Use GitHub Actions or Azure DevOps for release.</li><li>Parameterize connection strings per environment.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Pipeline runs succeed (build/test/package) and artifacts are versioned.</li><li>Deploy stages require approvals for production and have rollback strategy.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p05-logic-apps-6" href="#step-6">
+          <img src="../assets/screens/p05-logic-apps/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://www.youtube.com/watch?v=c2AfYD7391o" target="_blank" rel="noopener">Azure Integration Services Day (includes Logic Apps)</a></li><li><a href="https://www.youtube.com/playlist?list=PLLasX02E8BPDT2Z2pdCHNCkENpcQWy5n6" target="_blank" rel="noopener">Azure Friday (search within playlist for Logic Apps)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/logic-apps/" target="_blank" rel="noopener">Azure Logic Apps documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/api-management/" target="_blank" rel="noopener">Azure API Management documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/service-bus-messaging/" target="_blank" rel="noopener">Azure Service Bus documentation</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p04-automation.html">← Previous</a>
+        <a class="btn" href="p06-integrations.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

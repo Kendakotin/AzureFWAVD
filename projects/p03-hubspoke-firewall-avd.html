@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop</div>
+      <div class="side-meta">Networking &amp; End-user Computing</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p02-databricks-lakehouse.html">← Developing a Big Data Solution wit…</a>
+      <a class="side-link" href="p04-automation.html">Azure Automation (Runbooks) + Azur… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop</h1>
+        <p class="meta">Category: <b>Networking &amp; End-user Computing</b></p>
+        <div class="callout">Scenario: A BPO runs 24/7 agents on Azure Virtual Desktop and must enforce centralized egress/ingress inspection. Example: &#39;Kendaks BPO&#39; uses a hub VNet with Azure Firewall and multiple spoke VNets for AVD host pools.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/03_hubspoke_firewall_avd.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/03_hubspoke_firewall_avd.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p03-hubspoke-firewall-avd.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p03-hubspoke-firewall-avd.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><h4>Subscriptions &amp; resource groups</h4>
+<ul>
+<li>Hub: <code>hub-shared-prd</code> (network/security). Workload: <code>workloads-euc-prd</code> (AVD).</li>
+<li>Hub RGs (per region): <code>rg-hub-*-net</code>, <code>rg-hub-*-sec</code>, <code>rg-hub-*-dns</code>, <code>rg-hub-*-mon</code>.</li>
+<li>AVD RGs (per region): <code>rg-avd-*-avd</code> (host pool/app groups/workspace), <code>rg-avd-*-hosts</code>, <code>rg-avd-*-storage</code>, <code>rg-avd-*-ops</code>.</li>
+</ul>
+
+<h4>IP plan (2 regions)</h4>
+<ul>
+<li>Hub EUS: <code>vnet-hub-prd-eus</code> <code>10.0.0.0/16</code>; Hub CUS: <code>vnet-hub-prd-cus</code> <code>10.1.0.0/16</code>.</li>
+<li>AVD EUS: <code>vnet-avd-prd-eus</code> <code>10.10.0.0/16</code>; AVD CUS: <code>vnet-avd-prd-cus</code> <code>10.11.0.0/16</code>.</li>
+</ul>
+
+<h4>Hub components (per region)</h4>
+<ul>
+<li>Subnets: <code>AzureFirewallSubnet</code>, <code>AzureFirewallManagementSubnet</code>, <code>GatewaySubnet</code> (optional ER/VPN), <code>AzureBastionSubnet</code> (recommended).</li>
+<li>Azure Firewall (Standard/Premium) + Firewall Policy + diagnostics to Log Analytics.</li>
+<li>Private DNS zones + (optional) DNS Private Resolver for hybrid name resolution.</li>
+</ul>
+
+<h4>Spoke routing (forced egress)</h4>
+<ul>
+<li>Peer spoke VNets to hub (per region).</li>
+<li>UDR on AVD subnets: <code>0.0.0.0/0</code> → next hop Azure Firewall private IP.</li>
+<li>On-prem prefixes → next hop ER/VPN gateway (if used).</li>
+</ul>
+
+<h4>Firewall policy structure (recommended)</h4>
+<ul>
+<li><code>rcg-base-egress</code>: Windows Update/Defender endpoints + core SaaS allowlist.</li>
+<li><code>rcg-avd-egress</code>: required AVD service connectivity (maintain allowlist artifact).</li>
+<li><code>rcg-private-endpoints</code>: spoke → private endpoint IPs (Azure Files/Key Vault/etc.).</li>
+<li><code>rcg-deny-all</code>: deny and log everything else; enable Threat Intelligence.</li>
+</ul>
+
+<h4>AVD objects (per region)</h4>
+<ul>
+<li>Host pools: <code>hp-avd-prd-eus</code>, <code>hp-avd-prd-cus</code>; app groups + workspace.</li>
+<li>Session hosts in <code>snet-avd-sessionhosts</code>; autoscale via scaling plan (recommended).</li>
+</ul>
+
+<h4>Identity / join patterns (include both)</h4>
+<ul>
+<li><b>Pattern A</b> (cloud-first): Entra ID joined session hosts + Intune; Conditional Access enforces MFA + compliant devices.</li>
+<li><b>Pattern B</b> (legacy apps): AD DS / Azure AD DS joined; GPO manages FSLogix and app policies; still enforce Conditional Access for user access.</li>
+</ul>
+
+<h4>Profiles (FSLogix)</h4>
+<ul>
+<li><b>Azure Files</b> (common start): private endpoint (<code>privatelink.file.core.windows.net</code>), backups + snapshots, public access off.</li>
+<li><b>ANF</b> (enterprise DR): cross-region replication for profiles (faster failover).</li>
+</ul>
+
+<h4>Monitoring &amp; ops</h4>
+<ul>
+<li>AVD Insights + session host metrics; alert on connection failures and host health.</li>
+<li>Firewall denies/TI hits + SNAT usage; patch compliance via Update Manager.</li>
+</ul>
+
+<h4>DR/HA</h4>
+<ul>
+<li><b>Active/Passive</b>: CUS warm standby; failover runbook enables scaling and reassigns users.</li>
+<li><b>Active/Active</b>: split users across regions; reduces blast radius.</li>
+</ul>
+
+<h4>Mermaid (copy/paste)</h4>
+<pre><code>flowchart LR
+  subgraph HubEUS[Hub EUS]
+    AFW1[Firewall EUS]
+    DNS1[Private DNS/Resolver]
+    BAS1[Bastion]
+  end
+  subgraph AVDEUS[AVD Spoke EUS]
+    SHEUS[Session Hosts]
+    PEEUS[PE Subnet]
+    FILEEUS[Azure Files/ANF Profiles]
+  end
+  subgraph HubCUS[Hub CUS]
+    AFW2[Firewall CUS]
+  end
+  subgraph AVDCUS[AVD Spoke CUS]
+    SHCUS[Session Hosts]
+    FILECUS[Profiles DR]
+  end
+  Users[Users] --> AVDsvc[AVD Control Plane]
+  AVDsvc --> SHEUS
+  AVDsvc --> SHCUS
+  SHEUS -->|UDR 0/0| AFW1
+  SHCUS -->|UDR 0/0| AFW2
+  SHEUS --> PEEUS --> FILEEUS
+  DNS1 --- AVDEUS</code></pre></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define hub-spoke topology and IP plan</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p03-hubspoke-firewall-avd-1" class="zoom">
+              <img src="../assets/screens/p03-hubspoke-firewall-avd/step-01.png" alt="Reference screenshot for Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create hub VNet for shared services (Firewall, Bastion, DNS).</li><li>Create spoke VNets for workloads (AVD, apps, data).</li><li>Reserve subnets for Firewall and future growth.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p03-hubspoke-firewall-avd-1" href="#step-1">
+          <img src="../assets/screens/p03-hubspoke-firewall-avd/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/network.svg" alt="Network" />
+            <h3>Deploy hub components (Firewall, route tables, peering)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p03-hubspoke-firewall-avd-2" class="zoom">
+              <img src="../assets/screens/p03-hubspoke-firewall-avd/step-02.png" alt="Reference screenshot for Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Deploy Azure Firewall (or Firewall Manager + policy).</li><li>Peer spoke VNets to hub (no transitive peering without hub routing).</li><li>Create UDRs in spokes to force 0.0.0.0/0 to Firewall.</li></ul>
+            </div>
+            
+        <details class="details">
+          <summary>Example code / notes</summary>
+          <pre><code># Example: set UDR next hop to Azure Firewall
+az network route-table route create -g rg-net -n defaultToFirewall \
+  --route-table-name rt-spoke --address-prefix 0.0.0.0/0 --next-hop-type VirtualAppliance --next-hop-ip-address &lt;FW_PRIVATE_IP&gt;</code></pre>
+        </details>
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The target VNet/subnets/peerings/UDRs/NSGs are deployed with no errors.</li><li>Connectivity test passes (e.g., Network Watcher connection troubleshoot / ping between subnets where allowed).</li><li>Egress is controlled (traffic observed in Firewall logs if applicable).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p03-hubspoke-firewall-avd-2" href="#step-2">
+          <img src="../assets/screens/p03-hubspoke-firewall-avd/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/secure.svg" alt="Secure" />
+            <h3>Firewall policy: egress allowlist + TLS inspection (optional)</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p03-hubspoke-firewall-avd-3" class="zoom">
+              <img src="../assets/screens/p03-hubspoke-firewall-avd/step-03.png" alt="Reference screenshot for Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create application rules for required SaaS (M365, CRM, ITSM).</li><li>Use FQDN tags where supported to reduce maintenance.</li><li>Enable threat intelligence and logging to Log Analytics.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Security baseline applied (Defender/Policy/WAF/Firewall rules as applicable).</li><li>No public endpoints unless explicitly approved; private endpoints verified where applicable.</li><li>Alerts are configured for high-risk events.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p03-hubspoke-firewall-avd-3" href="#step-3">
+          <img src="../assets/screens/p03-hubspoke-firewall-avd/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/identity.svg" alt="Identity" />
+            <h3>Deploy Azure Virtual Desktop host pool and identity</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p03-hubspoke-firewall-avd-4" class="zoom">
+              <img src="../assets/screens/p03-hubspoke-firewall-avd/step-04.png" alt="Reference screenshot for Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Create host pool, workspace, and application groups.</li><li>Join session hosts to Entra ID or AD DS/AAD DS based on requirements.</li><li>Apply Conditional Access + MFA for AVD access.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Entra groups/roles are configured; privileged roles protected via PIM.</li><li>Conditional Access/MFA policies are enforced for relevant access paths.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p03-hubspoke-firewall-avd-4" href="#step-4">
+          <img src="../assets/screens/p03-hubspoke-firewall-avd/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Monitoring: Network Watcher + Firewall logs + AVD insights</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p03-hubspoke-firewall-avd-5" class="zoom">
+              <img src="../assets/screens/p03-hubspoke-firewall-avd/step-05.png" alt="Reference screenshot for Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Enable Firewall logs (Application/Network) to Log Analytics.</li><li>Use AVD Insights (Azure Monitor) for session metrics.</li><li>Set alerts for SNAT exhaustion and high latency.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p03-hubspoke-firewall-avd-5" href="#step-5">
+          <img src="../assets/screens/p03-hubspoke-firewall-avd/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Validation: forced tunneling + user experience</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p03-hubspoke-firewall-avd-6" class="zoom">
+              <img src="../assets/screens/p03-hubspoke-firewall-avd/step-06.png" alt="Reference screenshot for Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Confirm all outbound from AVD flows through the Firewall.</li><li>Run latency tests (ping/rdp round-trip).</li><li>Document break-glass procedures.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p03-hubspoke-firewall-avd-6" href="#step-6">
+          <img src="../assets/screens/p03-hubspoke-firewall-avd/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://www.youtube.com/watch?v=IlSRIeuPuWc" target="_blank" rel="noopener">Learn Live: Introduction to Azure Firewall</a></li><li><a href="https://www.youtube.com/playlist?list=PLXtHYVsvn_b-bLI3NQ5X1tcPC6HCNBkpx" target="_blank" rel="noopener">Azure Virtual Desktop (Microsoft Mechanics playlist)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/firewall/" target="_blank" rel="noopener">Azure Firewall documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/virtual-desktop/" target="_blank" rel="noopener">Azure Virtual Desktop documentation</a></li><li><a href="https://learn.microsoft.com/en-us/azure/architecture/networking/architecture/hub-spoke" target="_blank" rel="noopener">Hub-spoke network topology</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p02-databricks-lakehouse.html">← Previous</a>
+        <a class="btn" href="p04-automation.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

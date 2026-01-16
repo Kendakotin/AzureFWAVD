@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="index.html">Home</a>
+      <a href="screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+    <div class="side-title">Navigation</div>
+    <a href="#start" class="side-link">Start here</a>
+    <a href="#projects" class="side-link">Projects</a>
+    <a href="screenshots.html" class="side-link">Screenshots Gallery</a>
+    <div class="side-title">Tips</div>
+    <div class="side-note">If SupportZebra blocks scripts, this static version still works (no JS required).</div>
+  
+    </aside>
+    <main class="content">
+      
+    <section id="start" class="hero">
+      <h1>Kendaks R&amp;D guide</h1>
+      <p class="lead">A practical, step-by-step Azure project playbook with reference screenshots and Visio-style low-level architecture diagrams.</p>
+      <div class="cta-row">
+        <a class="btn" href="#projects">Browse projects</a>
+        <a class="btn secondary" href="screenshots.html">Open screenshots gallery</a>
+      </div>
+      <div class="callout">
+        <b>How to make this “actual implementation screenshots”:</b>
+        Replace any file under <code>assets/screens/&lt;project-id&gt;/step-XX.png</code> with your real Azure portal capture using the same filename.
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <p class="muted">Tip: Use your browser’s Find (Ctrl/Cmd+F) to search project names.</p>
+      
+    <details class="cat" open>
+      <summary>AI &amp; Automation <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p17-ai-helpdesk.html">
+        <div class="card-title">AI-Driven IT Helpdesk Automation System (Azure AI Foundry + RAG)</div>
+        <div class="card-meta">AI &amp; Automation</div>
+        <div class="card-body">Scenario: IT helpdesk wants faster resolution with AI summaries, suggested fixes, and automated actions. Example: &#39;Kendaks IT Helpdesk&#39; integrates ITSM tickets + internal K…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Cloud Architecture <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p13-serverless.html">
+        <div class="card-title">Building a Serverless Architecture (Functions + Event Grid)</div>
+        <div class="card-meta">Cloud Architecture</div>
+        <div class="card-body">Scenario: A platform needs event-driven processing with minimal ops overhead. Example: &#39;Kendaks Notifications&#39; processes events and sends emails/SMS with durable retries.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Compliance <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p24-pci-dss.html">
+        <div class="card-title">PCI DSS-Compliant Payment Processing Platform (PCI DSS v4.0)</div>
+        <div class="card-meta">Compliance</div>
+        <div class="card-body">Scenario: A payment workflow must be segmented, logged, and continuously assessed. Example: &#39;Kendaks Pay&#39; processes card payments via a PCI zone, tokenizes data, and centra…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Data &amp; Analytics <span class="pill">3</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p01-fabric-warehouse.html">
+        <div class="card-title">Data Warehousing on Microsoft Fabric (Lakehouse + Warehouse)</div>
+        <div class="card-meta">Data &amp; Analytics</div>
+        <div class="card-body">Scenario: A BPO needs a modern analytics platform to consolidate CRM, ticketing, and finance data for daily SLA reporting. Example: &#39;Kendaks Support&#39; ingests 20+ sources, s…</div>
+      </a>
+
+      <a class="card" href="projects/p02-databricks-lakehouse.html">
+        <div class="card-title">Developing a Big Data Solution with Azure Databricks (Lakehouse)</div>
+        <div class="card-meta">Data &amp; Analytics</div>
+        <div class="card-body">Scenario: An e-commerce team needs scalable ETL and ML feature pipelines. Example: &#39;Kendaks Commerce&#39; processes clickstream and order events for near‑real‑time recommendati…</div>
+      </a>
+
+      <a class="card" href="projects/p08-bigdata-solution.html">
+        <div class="card-title">Developing a Big Data Solution (Streaming + Lakehouse)</div>
+        <div class="card-meta">Data &amp; Analytics</div>
+        <div class="card-body">Scenario: Operations needs near-real-time KPI dashboards (queue length, SLA breaches). Example: &#39;Kendaks Contact Center&#39; streams call events and agent status into a lakehou…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Data Governance <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p09-data-governance.html">
+        <div class="card-title">Manage and Govern Data in Azure (Microsoft Purview)</div>
+        <div class="card-meta">Data Governance</div>
+        <div class="card-body">Scenario: A company needs a searchable data catalog, lineage, and PII controls. Example: &#39;Kendaks Data Office&#39; tracks datasets from ingestion to BI and enforces access rule…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Databases <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p11-azure-sql.html">
+        <div class="card-title">Setting Up an Azure SQL Database (Security-first)</div>
+        <div class="card-meta">Databases</div>
+        <div class="card-body">Scenario: A line-of-business app needs a managed relational database with HA and security. Example: &#39;Kendaks Billing&#39; runs on Azure SQL with private endpoints and auditing.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>DevOps <span class="pill">2</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p12-cicd.html">
+        <div class="card-title">Creating a CI/CD Pipeline (Build, Test, Deploy)</div>
+        <div class="card-meta">DevOps</div>
+        <div class="card-body">Scenario: Dev teams want consistent releases with quality gates. Example: &#39;Kendaks Apps&#39; uses GitHub Actions to deploy web apps and APIs across dev/test/prod.…</div>
+      </a>
+
+      <a class="card" href="projects/p19-cicd-iac.html">
+        <div class="card-title">CI/CD Pipeline with Infrastructure as Code (Bicep + GitHub Actions)</div>
+        <div class="card-meta">DevOps</div>
+        <div class="card-body">Scenario: Platform team wants repeatable, audited infra deployments. Example: &#39;Kendaks Platform&#39; provisions VNets, AKS, and PaaS with Bicep modules.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>FinOps <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p20-finops.html">
+        <div class="card-title">Cloud Cost Optimization &amp; FinOps Platform</div>
+        <div class="card-meta">FinOps</div>
+        <div class="card-body">Scenario: Finance and engineering need cost visibility, anomaly detection, and optimization automation. Example: &#39;Kendaks FinOps&#39; tags costs by client and enforces budgets.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Hybrid <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p22-hybrid-integration.html">
+        <div class="card-title">Hybrid Cloud &amp; On-Prem Integration (Azure Arc + ExpressRoute/VPN)</div>
+        <div class="card-meta">Hybrid</div>
+        <div class="card-body">Scenario: An enterprise must manage servers on-prem and in cloud with consistent governance. Example: &#39;Kendaks Hybrid&#39; uses Arc to apply policy, patching, and monitoring.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Industry Solutions <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p16-bpo-ha.html">
+        <div class="card-title">Multi-Region High Availability BPO Platform</div>
+        <div class="card-meta">Industry Solutions</div>
+        <div class="card-body">Scenario: A BPO platform must maintain 99.9%+ availability for agent tooling, CRM integrations, and call routing. Example: &#39;Kendaks BPO Platform&#39; runs active-active across …</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Integration <span class="pill">2</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p05-logic-apps.html">
+        <div class="card-title">Azure Logic Apps for Workflow Automation</div>
+        <div class="card-meta">Integration</div>
+        <div class="card-body">Scenario: A service desk automates approvals and notifications across ITSM, email, Teams, and SharePoint. Example: &#39;Kendaks IT&#39; auto-approves low-risk requests and escalate…</div>
+      </a>
+
+      <a class="card" href="projects/p06-integrations.html">
+        <div class="card-title">Enterprise Integrations (APIM + Service Bus + Event Grid + Logic Apps)</div>
+        <div class="card-meta">Integration</div>
+        <div class="card-body">Scenario: Multiple internal apps must exchange events reliably. Example: &#39;Kendaks Platform&#39; standardizes integrations for onboarding/offboarding and billing events.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Networking &amp; End-user Computing <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p03-hubspoke-firewall-avd.html">
+        <div class="card-title">Azure Firewall Hub-and-Spoke Network with Azure Virtual Desktop</div>
+        <div class="card-meta">Networking &amp; End-user Computing</div>
+        <div class="card-body">Scenario: A BPO runs 24/7 agents on Azure Virtual Desktop and must enforce centralized egress/ingress inspection. Example: &#39;Kendaks BPO&#39; uses a hub VNet with Azure Firewall…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Operations <span class="pill">2</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p04-automation.html">
+        <div class="card-title">Azure Automation (Runbooks) + Azure Update Manager</div>
+        <div class="card-meta">Operations</div>
+        <div class="card-body">Scenario: Ops team needs repeatable remediation for common incidents and patch governance. Example: &#39;Kendaks Ops&#39; automates VM start/stop schedules and monthly patch window…</div>
+      </a>
+
+      <a class="card" href="projects/p23-incident-command.html">
+        <div class="card-title">Real-Time Monitoring &amp; Incident Command Center (Azure Monitor + Grafana)</div>
+        <div class="card-meta">Operations</div>
+        <div class="card-body">Scenario: NOC needs a single pane of glass for services, SLAs, and incidents. Example: &#39;Kendaks Command Center&#39; uses dashboards, alerts, and war-room workflows.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Reliability <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p14-multi-region-dr.html">
+        <div class="card-title">Designing a Multi-Region Disaster Recovery (Front Door + Failover)</div>
+        <div class="card-meta">Reliability</div>
+        <div class="card-body">Scenario: A customer portal needs DR across regions with low RTO/RPO. Example: &#39;Kendaks Portal&#39; uses active-passive with automated failover.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Security <span class="pill">3</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p07-advanced-security.html">
+        <div class="card-title">Implementing Advanced Security Solutions (Defender for Cloud + Sentinel + Key Vault)</div>
+        <div class="card-meta">Security</div>
+        <div class="card-body">Scenario: A regulated SaaS must implement continuous posture management, centralized logging, and key management. Example: &#39;Kendaks Secure SaaS&#39; enforces baseline policies …</div>
+      </a>
+
+      <a class="card" href="projects/p15-zero-trust.html">
+        <div class="card-title">Zero Trust Cloud Security Platform (Entra ID + Conditional Access + Private Access)</div>
+        <div class="card-meta">Security</div>
+        <div class="card-body">Scenario: Enterprise requires Zero Trust for cloud apps and admin access. Example: &#39;Kendaks Enterprise&#39; enforces MFA, device compliance, and least privilege for all workloa…</div>
+      </a>
+
+      <a class="card" href="projects/p18-soc-automation.html">
+        <div class="card-title">SOC Automation &amp; Threat Intelligence Platform (Sentinel + SOAR)</div>
+        <div class="card-meta">Security</div>
+        <div class="card-body">Scenario: SOC wants automated enrichment and consistent incident handling. Example: &#39;Kendaks SOC&#39; ingests TI feeds (TAXII), enriches alerts, and auto-opens tickets.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Security &amp; Architecture <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p21-secure-saas.html">
+        <div class="card-title">Secure SaaS Application (Private PaaS + Identity + App Gateway/WAF)</div>
+        <div class="card-meta">Security &amp; Architecture</div>
+        <div class="card-body">Scenario: A multi-tenant SaaS must isolate tenants and secure PaaS. Example: &#39;Kendaks SaaS&#39; uses private endpoints, WAF, and strong identity.…</div>
+      </a></div>
+    </details>
+
+    <details class="cat" open>
+      <summary>Storage <span class="pill">1</span></summary>
+      <div class="grid">
+      <a class="card" href="projects/p10-azure-files.html">
+        <div class="card-title">Azure Storage for File Management (Azure Files + Azure File Sync)</div>
+        <div class="card-meta">Storage</div>
+        <div class="card-body">Scenario: A hybrid office needs shared file drives with cloud backup. Example: &#39;Kendaks HQ&#39; migrates on-prem file shares to Azure Files with on-prem caching.…</div>
+      </a></div>
+    </details>
+    </section>
+  
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>

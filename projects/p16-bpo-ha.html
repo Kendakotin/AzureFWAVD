@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Multi-Region High Availability BPO Platform — Kendaks R&D guide</title>
+  <link rel="stylesheet" href="../styles.css" />
+  
+</head>
+<body class="page">
+  <header class="topbar">
+    <div class="brand"><a href="../index.html">Kendaks R&D guide</a></div>
+    <nav class="topnav">
+      <a href="../index.html">Home</a>
+      <a href="../screenshots.html">Screenshots Gallery</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      
+      <div class="side-title">Multi-Region High Availability BPO Platform</div>
+      <div class="side-meta">Industry Solutions</div>
+      <a class="side-link" href="#overview">Overview</a>
+      <a class="side-link" href="#architecture">Architecture</a>
+      <a class="side-link" href="#lowlevel">Low-level diagram</a>
+      <a class="side-link" href="#lowlevel-text">Implementation details</a>
+      <a class="side-link" href="#steps">Steps</a>
+      <div class="side-sub">Jump to step</div>
+      <div class="step-chips"><a class="step-chip" href="#step-1">1</a><a class="step-chip" href="#step-2">2</a><a class="step-chip" href="#step-3">3</a><a class="step-chip" href="#step-4">4</a><a class="step-chip" href="#step-5">5</a><a class="step-chip" href="#step-6">6</a></div>
+      <a class="side-link" href="#videos">Video tutorials</a>
+      <a class="side-link" href="#refs">References</a>
+      <div class="side-title">Next / Prev</div>
+      <a class="side-link" href="p15-zero-trust.html">← Zero Trust Cloud Security Platform…</a>
+      <a class="side-link" href="p17-ai-helpdesk.html">AI-Driven IT Helpdesk Automation S… →</a>
+    
+    </aside>
+    <main class="content">
+      
+      <section id="overview">
+        <h1>Multi-Region High Availability BPO Platform</h1>
+        <p class="meta">Category: <b>Industry Solutions</b></p>
+        <div class="callout">Scenario: A BPO platform must maintain 99.9%+ availability for agent tooling, CRM integrations, and call routing. Example: &#39;Kendaks BPO Platform&#39; runs active-active across two regions.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>Architecture diagram</h2>
+        <p class="muted">High-level view of the main components and data/control flows.</p>
+        <div class="diagram">
+          <a href="../assets/diagrams/16_bpo_ha.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/16_bpo_ha.svg" alt="Architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel">
+        <h2>Low-level architecture diagram (Visio-style)</h2>
+        <p class="muted">Implementation view (networking, security, ops). Click to open full size.</p>
+        <div class="diagram">
+          <a href="../assets/lowlevel-visio/p16-bpo-ha.png" target="_blank" rel="noopener"><img src="../assets/lowlevel-visio/p16-bpo-ha.png" alt="Low-level architecture diagram" /></a>
+        </div>
+      </section>
+
+      <section id="lowlevel-text">
+        <h2>Low-level architecture details</h2>
+        <div class="rich"><p class="muted">(No low-level text provided.)</p></div>
+      </section>
+
+      <section id="steps">
+        <h2>Step-by-step implementation</h2>
+        <div class="step-jump">
+          <span class="muted">Jump:</span>
+          <a href="#step-1">Step 1</a><a href="#step-2">Step 2</a><a href="#step-3">Step 3</a><a href="#step-4">Step 4</a><a href="#step-5">Step 5</a><a href="#step-6">Step 6</a>
+        </div>
+        
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <div class="step-badge">Step 1/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/plan.svg" alt="Plan" />
+            <h3>Define SLOs and workloads</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p16-bpo-ha-1" class="zoom">
+              <img src="../assets/screens/p16-bpo-ha/step-01.png" alt="Reference screenshot for Multi-Region High Availability BPO Platform step 1" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Identify critical components (AVD, CRM integration, dialer, ticketing).</li><li>Set availability/error budgets.</li><li>Decide active-active vs active-passive per component.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Stakeholders have signed off the scope, SLAs, and data/security requirements.</li><li>You have documented naming standards, environments, and ownership (RACI).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p16-bpo-ha-1" href="#step-1">
+          <img src="../assets/screens/p16-bpo-ha/step-01.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <div class="step-badge">Step 2/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/network.svg" alt="Network" />
+            <h3>Global ingress and security edge</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p16-bpo-ha-2" class="zoom">
+              <img src="../assets/screens/p16-bpo-ha/step-02.png" alt="Reference screenshot for Multi-Region High Availability BPO Platform step 2" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use Front Door + WAF for global routing.</li><li>Use DDoS protection for VNets.</li><li>Standardize TLS and cert rotation.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>The target VNet/subnets/peerings/UDRs/NSGs are deployed with no errors.</li><li>Connectivity test passes (e.g., Network Watcher connection troubleshoot / ping between subnets where allowed).</li><li>Egress is controlled (traffic observed in Firewall logs if applicable).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p16-bpo-ha-2" href="#step-2">
+          <img src="../assets/screens/p16-bpo-ha/step-02.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <div class="step-badge">Step 3/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/deploy.svg" alt="Deploy" />
+            <h3>Deploy compute across regions</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p16-bpo-ha-3" class="zoom">
+              <img src="../assets/screens/p16-bpo-ha/step-03.png" alt="Reference screenshot for Multi-Region High Availability BPO Platform step 3" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use App Service/AKS depending on workload.</li><li>Keep infrastructure identical via IaC.</li><li>Use zone redundancy where supported.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Deployment completed; smoke tests passed; rollback plan confirmed.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p16-bpo-ha-3" href="#step-3">
+          <img src="../assets/screens/p16-bpo-ha/step-03.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <div class="step-badge">Step 4/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/dr.svg" alt="DR" />
+            <h3>Data strategy</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p16-bpo-ha-4" class="zoom">
+              <img src="../assets/screens/p16-bpo-ha/step-04.png" alt="Reference screenshot for Multi-Region High Availability BPO Platform step 4" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Use SQL failover groups or Cosmos multi-region.</li><li>Define consistency and conflict resolution.</li><li>Replicate secrets and configuration.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Failover procedure is documented and tested (tabletop + technical drill).</li><li>RPO/RTO measured and meets requirements.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p16-bpo-ha-4" href="#step-4">
+          <img src="../assets/screens/p16-bpo-ha/step-04.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="step-head">
+          <div class="step-badge">Step 5/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/monitor.svg" alt="Monitor" />
+            <h3>Operations and incident response</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p16-bpo-ha-5" class="zoom">
+              <img src="../assets/screens/p16-bpo-ha/step-05.png" alt="Reference screenshot for Multi-Region High Availability BPO Platform step 5" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Centralize logs/metrics; create SLO dashboards.</li><li>Automate failover and paging via action groups.</li><li>Run game days.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>Logs and metrics are flowing (check Log Analytics / Monitor).</li><li>Alerts trigger correctly (test alert path to email/Teams/ITSM).</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p16-bpo-ha-5" href="#step-5">
+          <img src="../assets/screens/p16-bpo-ha/step-05.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="step-head">
+          <div class="step-badge">Step 6/6</div>
+          <div class="step-title">
+            <img class="step-icon" src="../assets/step-icons/test.svg" alt="Test" />
+            <h3>Continuity tests</h3>
+          </div>
+        </div>
+        <div class="step-grid">
+          <figure class="shot">
+            <a href="#img-p16-bpo-ha-6" class="zoom">
+              <img src="../assets/screens/p16-bpo-ha/step-06.png" alt="Reference screenshot for Multi-Region High Availability BPO Platform step 6" loading="lazy" />
+            </a>
+            <figcaption>Reference portal screenshot (click to zoom). Replace with your tenant capture if needed.</figcaption>
+          </figure>
+          <div class="step-body">
+            <div class="step-actions">
+              <ul><li>Simulate regional outage and validate recovery.</li><li>Validate agent session continuity and routing.</li><li>Document customer communication templates.</li></ul>
+            </div>
+            
+            <details class="details" open>
+              <summary>Validation checklist</summary>
+              <ul><li>UAT completed with representative users and scenarios.</li><li>Performance meets baseline; issues tracked and remediated.</li></ul>
+            </details>
+          </div>
+        </div>
+        <a class="lightbox" id="img-p16-bpo-ha-6" href="#step-6">
+          <img src="../assets/screens/p16-bpo-ha/step-06.png" alt="Zoomed screenshot" />
+        </a>
+      </article>
+      </section>
+
+      <section id="videos">
+        <h2>Video tutorials</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/shows/azure-friday/using-azure-cross-region-load-balancer-for-high-availability-scenarios" target="_blank" rel="noopener">Using Azure Cross-region Load Balancer for HA scenarios (Azure Friday)</a></li><li><a href="https://learn.microsoft.com/en-us/shows/azure-friday/protect-your-web-applications-using-waf-with-azure-front-door" target="_blank" rel="noopener">Protect your web apps using WAF with Azure Front Door (Azure Friday)</a></li></ul>
+      </section>
+
+      <section id="refs">
+        <h2>References</h2>
+        <ul><li><a href="https://learn.microsoft.com/en-us/azure/reliability/" target="_blank" rel="noopener">Azure reliability</a></li><li><a href="https://learn.microsoft.com/en-us/azure/frontdoor/" target="_blank" rel="noopener">Azure Front Door</a></li></ul>
+      </section>
+
+      <div class="pager">
+        <a class="btn secondary" href="p15-zero-trust.html">← Previous</a>
+        <a class="btn" href="p17-ai-helpdesk.html">Next →</a>
+      </div>
+    
+    </main>
+  </div>
+  <footer class="footer">
+    <div>Reference screenshots and diagrams are provided for learning. Replace with your tenant’s real screenshots/Visio if needed.</div>
+  </footer>
+</body>
+</html>
